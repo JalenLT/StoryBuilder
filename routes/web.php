@@ -9,7 +9,11 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/stories/store', [StoryController::class, 'store'])->name('stories.store');
+    Route::prefix('stories')->name('stories.')->controller(StoryController::class)->group(function () {
+        Route::post('/', 'store')->name('store');
+        Route::post('genres/update', 'updateGenres')->name('genres.update');
+        Route::post('tags/update', 'updateTags')->name('tags.update');
+    });
 
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');

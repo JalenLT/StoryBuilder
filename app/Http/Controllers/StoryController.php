@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\StoryResource;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Story;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\StoryResource;
 use App\Actions\Story\CreateStoryAction;
 use App\Http\Requests\StoreStoryRequest;
+use App\Actions\Story\UpdateStoryTagsAction;
+use App\Http\Requests\UpdateStoryTagsRequest;
+use App\Actions\Story\UpdateStoryGenresAction;
+use App\Http\Requests\UpdateStoryGenresRequest;
 
 class StoryController extends Controller
 {
@@ -24,6 +28,24 @@ class StoryController extends Controller
             'message' => 'Story created successfully',
             'data' => new StoryResource($story)
         ], 201);
+    }
+
+    public function updateGenres(UpdateStoryGenresRequest $request, UpdateStoryGenresAction $updateStoryGenres){
+        $genres = $updateStoryGenres($request->validated(), $request->user());
+
+        return response()->json([
+            'message' => 'Story genres updated successfully',
+            'data' => $genres
+        ]);
+    }
+
+    public function updateTags(UpdateStoryTagsRequest $request, UpdateStoryTagsAction $updateStoryTags){
+        $tags = $updateStoryTags($request->validated(), $request->user());
+
+        return response()->json([
+            'message' => 'Story tags updated successfully',
+            'data' => $tags
+        ]);
     }
 
     /**
