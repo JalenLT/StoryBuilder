@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('world');
-            $table->string('era');
-            $table->string('climate');
+            $table->string('world')->nullable();
+            $table->string('era')->nullable();
+            $table->string('climate')->nullable();
+            $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('story_id')->constrained('stories')->cascadeOnDelete();
             $table->timestamps();
         });
     }

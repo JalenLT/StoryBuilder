@@ -5,16 +5,16 @@ namespace App\Http\Requests;
 use App\Models\Story;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStoryTagsRequest extends FormRequest
+class GetStoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $story = Story::find($this->input('story_id'));
+        $story = Story::find($this->input('id'));
 
-        return $story && $this->user()->can('update', $story);
+        return $story && $this->user()->can('view', $story);
     }
 
     /**
@@ -25,9 +25,7 @@ class UpdateStoryTagsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'story_id' => ['required', 'integer', 'exists:stories,id'],
-            'tags' => ['required', 'array', 'min:1'],
-            'tags.*' => ['required', 'integer', 'exists:tags,id'],
+            'id' => ['required', 'integer', 'exists:stories,id'],
         ];
     }
 }

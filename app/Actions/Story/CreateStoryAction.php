@@ -10,7 +10,7 @@ class CreateStoryAction{
         return Story::create([
             'title' => $data['title'],
             'description' => $data['description'],
-            'creator_id' => $user->getAttribute('id')
+            'creator_id' => $user->id
         ]);
     }
 }

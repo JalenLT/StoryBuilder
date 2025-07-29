@@ -47,20 +47,4 @@ class StoryPolicy
     {
         return $user->getAttribute('id') === $story->getAttribute('creator_id') && $user->can('stories.delete');
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Story $story): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Story $story): bool
-    {
-        return false;
-    }
 }

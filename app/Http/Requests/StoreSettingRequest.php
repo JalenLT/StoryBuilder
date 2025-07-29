@@ -2,19 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Story;
+use App\Models\Setting;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStoryTagsRequest extends FormRequest
+class StoreSettingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $story = Story::find($this->input('story_id'));
-
-        return $story && $this->user()->can('update', $story);
+        return $this->user()->can('create', Setting::class);
     }
 
     /**
@@ -25,9 +24,12 @@ class UpdateStoryTagsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['required', 'string', 'max:255', Rule::unique(Setting::class, 'name')],
+            'description' => ['required', 'string'],
+            'world' => ['nullable', 'string', 'max:255'],
+            'era' => ['nullable', 'string', 'max:255'],
+            'climate' => ['nullable', 'string', 'max:255'],
             'story_id' => ['required', 'integer', 'exists:stories,id'],
-            'tags' => ['required', 'array', 'min:1'],
-            'tags.*' => ['required', 'integer', 'exists:tags,id'],
         ];
     }
 }

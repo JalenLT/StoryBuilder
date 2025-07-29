@@ -2,19 +2,19 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Story;
+use App\Models\Setting;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStoryTagsRequest extends FormRequest
+class GetSettingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $story = Story::find($this->input('story_id'));
+        $setting = Setting::find($this->input('id'));
 
-        return $story && $this->user()->can('update', $story);
+        return $setting && $this->user()->can('view', $setting);
     }
 
     /**
@@ -25,9 +25,7 @@ class UpdateStoryTagsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'story_id' => ['required', 'integer', 'exists:stories,id'],
-            'tags' => ['required', 'array', 'min:1'],
-            'tags.*' => ['required', 'integer', 'exists:tags,id'],
+            'id' => ['required', 'integer', 'exists:settings,id'],
         ];
     }
 }

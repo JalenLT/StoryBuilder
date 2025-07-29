@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\Block;
+use App\Models\Feature;
+use App\Models\Character;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
@@ -11,7 +15,9 @@ class Setting extends Model
         'description',
         'world',
         'era',
-        'climate'
+        'climate',
+        'creator_id',
+        'story_id'
     ];
 
     public function blocks(){
@@ -24,5 +30,13 @@ class Setting extends Model
 
     public function characters(){
         return $this->hasMany(Character::class, 'setting_id');
+    }
+
+    public function creator(){
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function story(){
+        return $this->belongsTo(Story::class, 'story_id');
     }
 }

@@ -9,11 +9,14 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::prefix('stories')->name('stories.')->controller(StoryController::class)->group(function () {
-        Route::post('/', 'store')->name('store');
-        Route::post('genres/update', 'updateGenres')->name('genres.update');
-        Route::post('tags/update', 'updateTags')->name('tags.update');
-    });
+    // Route::prefix('stories')->name('stories.')->controller(StoryController::class)->group(function () {
+    //     Route::post('store', 'store')->name('store');
+    //     Route::post('genres/update', 'updateGenres')->name('genres.update');
+    //     Route::post('tags/update', 'updateTags')->name('tags.update');
+
+    //     Route::get('{id}', 'getStory')->name('get');
+    //     Route::get('get-all', 'getCurrentUserStories')->name('get-all');
+    // });
 
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');

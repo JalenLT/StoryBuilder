@@ -32,4 +32,8 @@ class Story extends Model
     public function characters(){
         return $this->hasMany(Character::class, 'story_id');
     }
+
+    public function settings(){
+        return $this->hasMany(Setting::class, 'story_id');
+    }
 }
