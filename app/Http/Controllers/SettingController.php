@@ -6,7 +6,7 @@ use App\Models\Story;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Requests\GetSettingRequest;
-use App\Actions\Story\UpdateSettingAction;
+use App\Actions\Setting\UpdateSettingAction;
 use App\Http\Requests\StoreSettingRequest;
 use App\Http\Requests\UpdateSettingRequest;
 use App\Actions\Setting\CreateSettingAction;

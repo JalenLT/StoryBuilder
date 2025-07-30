@@ -36,4 +36,8 @@ class Story extends Model
     public function settings(){
         return $this->hasMany(Setting::class, 'story_id');
     }
+
+    public function features(){
+        return $this->hasMany(Feature::class, 'story_id');
+    }
 }

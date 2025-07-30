@@ -10,9 +10,14 @@ class Feature extends Model
         'name',
         'type',
         'description',
+        'story_id'
     ];
 
     public function settings(){
         return $this->belongsToMany(Setting::class, 'setting_features', 'feature_id', 'setting_id');
+    }
+
+    public function story(){
+        return $this->belongsTo(Story::class);
     }
 }
