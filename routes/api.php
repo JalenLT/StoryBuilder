@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\FeatureController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\SettingController;
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
@@ -25,6 +26,12 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::prefix('features')->name('features.')->controller(FeatureController::class)->group(function () {
         Route::get('{id}', 'get')->name('get');
         Route::get('get-all-per-story/{id}', 'getAllPerStory')->name('get-all-per-story');
+        Route::post('store', 'store')->name('store');
+        Route::post('update', 'update')->name('update');
+    });
+
+    Route::prefix('genres')->name('genres.')->controller(GenreController::class)->group(function () {
+        Route::get('get-all', 'getAll')->name('get-all');
         Route::post('store', 'store')->name('store');
         Route::post('update', 'update')->name('update');
     });

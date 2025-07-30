@@ -9,7 +9,7 @@ class Tag extends Model
     protected $fillable = [
         'name',
         'description',
-        'icon'
+        'image'
     ];
 
     public function stories(){
