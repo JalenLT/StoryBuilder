@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Genre;
-use Illuminate\Http\Request;
 use App\Actions\Genre\CreateGenreAction;
 use App\Actions\Genre\UpdateGenreAction;
 use App\Http\Requests\StoreGenreRequest;
