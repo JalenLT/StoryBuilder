@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateSettingFeatureRequest;
 use App\Models\Story;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -48,5 +49,9 @@ class SettingController extends Controller
             'message' => 'Setting updated successfully',
             'data' => $setting
         ], 200);
+    }
+
+    public function connectFeature(CreateSettingFeatureRequest $request){
+
     }
 }

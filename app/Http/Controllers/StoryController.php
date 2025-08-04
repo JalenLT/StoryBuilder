@@ -69,28 +69,4 @@ class StoryController extends Controller
             'data' => $tags
         ], 200);
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Story $story)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Story $story)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Story $story)
-    {
-        //
-    }
 }
