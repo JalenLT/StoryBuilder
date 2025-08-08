@@ -10,8 +10,6 @@ class UpdateGenreAction{
     public function __invoke(array $data, User $user): Genre{
         $genre = Genre::findOrFail($data['id']);
 
-        abort_unless($user->can('update', $genre), 403);
-
         return DB::transaction(function() use($genre, $data){
             $genre->name = $data['name'];
             $genre->description = $data['description'];

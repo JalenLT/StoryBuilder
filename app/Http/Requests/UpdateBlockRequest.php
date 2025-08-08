@@ -2,20 +2,19 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Point;
-use App\Models\Story;
+use App\Models\Block;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePointRequest extends FormRequest
+class UpdateBlockRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $story = Story::find($this->input('story_id'));
+        $block = Block::find($this->input('id'));
 
-        return $story && $this->user()->can('create', [Point::class, $story]);
+        return $block && $this->user()->can('update', $block);
     }
 
     /**
@@ -26,9 +25,9 @@ class StorePointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'text' => ['required', 'string'],
-            'story_id' => ['required', 'integer', 'exists:stories,id'],
-            'block_id' => ['required', 'integer', 'exists:blocks,id']
+            'id' => ['required', 'integer', 'exists:blocks,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'setting_id' => ['required', 'integer', 'exists:settings,id'],
         ];
     }
 }

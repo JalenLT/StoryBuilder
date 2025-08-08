@@ -11,8 +11,6 @@ class UpdateSettingAction{
     public function __invoke(array $data, User $user): Setting{
         $setting = Setting::findOrFail($data['id']);
 
-        abort_unless($user->can('update', $setting), 403);
-
         return DB::transaction(function() use($setting, $data){
             $setting->name = $data['name'];
             $setting->description = $data['description'];

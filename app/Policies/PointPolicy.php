@@ -42,6 +42,6 @@ class PointPolicy
      */
     public function delete(User $user, Point $point): bool
     {
-        return $user->getAttribute('id') === $point->getAttribute('creator_id') && $user->can('stories.delete');
+        return $user->getAttribute('id') === $point->getAttribute('creator_id') && $user->can('points.delete');
     }
 }

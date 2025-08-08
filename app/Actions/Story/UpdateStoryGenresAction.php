@@ -11,8 +11,6 @@ class UpdateStoryGenresAction{
     public function __invoke(array $data, User $user): Collection{
         $story = Story::findOrFail($data['story_id']);
 
-        abort_unless($user->can('update', $story), 403);
-
         return DB::transaction(function() use($story, $data){
             $story->genres()->sync($data['genres']);
             return $story->genres()->get();

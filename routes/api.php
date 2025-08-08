@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlockController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\GenreController;
@@ -51,5 +52,13 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::get('get-all', 'getAll')->name('get-all');
         Route::post('store', 'store')->name('store');
         Route::post('update', 'update')->name('update');
+    });
+
+    Route::prefix('blocks')->name('blocks.')->controller(BlockController::class)->group(function () {
+        Route::get('{id}', 'get')->name('get');
+        Route::get('get-all-per-story/{id}', 'getAllPerStory')->name('get-all-per-story');
+        Route::post('store', 'store')->name('store');
+        Route::post('update', 'update')->name('update');
+        Route::post('store-block-connection', 'storeBlockConnection')->name('store-block-connection');
     });
 });
