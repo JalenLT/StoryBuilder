@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateSettingFeatureRequest;
 use App\Models\Story;
 use App\Models\Setting;
-use Illuminate\Http\Request;
 use App\Http\Requests\GetSettingRequest;
-use App\Actions\Setting\UpdateSettingAction;
 use App\Http\Requests\StoreSettingRequest;
 use App\Http\Requests\UpdateSettingRequest;
 use App\Actions\Setting\CreateSettingAction;
+use App\Actions\Setting\UpdateSettingAction;
 use App\Http\Requests\GetStorySettingsRequest;
+use App\Http\Requests\StoreSettingFeatureRequest;
+use App\Actions\Setting\CreateSettingFeatureAction;
 
 class SettingController extends Controller
 {
@@ -51,7 +51,12 @@ class SettingController extends Controller
         ], 200);
     }
 
-    public function connectFeature(CreateSettingFeatureRequest $request){
+    public function connectFeature(StoreSettingFeatureRequest $request, CreateSettingFeatureAction $createSettingFeatureAction){
+        $settingFeature = $createSettingFeatureAction($request->validated());
 
+        return response()->json([
+            'message' => 'Setting feature connection created successfully',
+            'data' => $settingFeature
+        ], 201);
     }
 }

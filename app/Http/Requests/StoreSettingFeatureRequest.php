@@ -6,7 +6,7 @@ use App\Models\Setting;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateSettingFeatureRequest extends FormRequest
+class StoreSettingFeatureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Models\Block;
+use Illuminate\Foundation\Http\FormRequest;
+
+class GetBlockPointsRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        $block = Block::find($this->input('block_id'));
+
+        return $block && $this->user()->can('view', $block);
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'block_id' => ['required', 'integer', 'exists:blocks,id'],
+        ];
+    }
+}

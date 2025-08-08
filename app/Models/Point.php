@@ -8,11 +8,11 @@ class Point extends Model
 {
     protected $fillable = [
         'text',
-        'created_by'
+        'creator_id'
     ];
 
     public function creator(){
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function characterInvolvements()
