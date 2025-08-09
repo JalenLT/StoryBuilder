@@ -61,4 +61,13 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::post('update', 'update')->name('update');
         Route::post('store-block-connection', 'storeBlockConnection')->name('store-block-connection');
     });
+
+    Route::prefix('characters')->name('characters.')->controller(BlockController::class)->group(function () {
+        Route::get('{id}', 'get')->name('get');
+        Route::get('get-all-per-story/{id}', 'getAllPerStory')->name('get-all-per-story');
+        Route::post('store', 'store')->name('store');
+        Route::post('update', 'update')->name('update');
+        Route::post('store-character-relationship', 'storeCharacterRelationship')->name('store-character-relationship');
+        Route::post('store-character-involvement', 'storeCharacterInvolvement')->name('store-character-involvement');
+    });
 });
