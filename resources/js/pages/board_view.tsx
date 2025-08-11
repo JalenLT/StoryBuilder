@@ -1,13 +1,19 @@
 import { useState, useCallback } from 'react';
-import { ReactFlow, Background, Controls, Panel, applyEdgeChanges, applyNodeChanges, NodeChange, Node, Edge, EdgeChange, addEdge } from '@xyflow/react';
+import { ReactFlow, Background, Controls, Panel, applyEdgeChanges, applyNodeChanges, NodeChange, Node, Edge, EdgeChange, addEdge, type OnConnect } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+
+import StoryNode from '@/components/nodes/story';
+
+const nodeTypes = {
+    story: StoryNode
+};
 
 const initialNodes: Node[] = [
     {
         id: 'block:1',
         position: { x: 100, y: 100 },
-        data: { label: 'Block 1' },
-        type: 'input'
+        data: { label: "Fate's Gambit", description: "A deck of cards. A game of power. A fate worth daring." },
+        type: 'story'
     },
     {
         id: 'block:2',
@@ -38,8 +44,8 @@ export default function BoardView(){
         (changes: EdgeChange[]) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
         []
     );
-    const onConnect = useCallback(
-        (params: any) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
+    const onConnect: OnConnect = useCallback(
+        (params) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
         []
     );
 
@@ -51,6 +57,7 @@ export default function BoardView(){
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                nodeTypes={nodeTypes}
                 fitView>
                 <Background />
                 <Controls />
