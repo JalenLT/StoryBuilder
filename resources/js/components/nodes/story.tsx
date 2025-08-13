@@ -13,7 +13,7 @@ function StoryNode({data, isConnectable, selected}: {data: StoryData, isConnecta
             <div className={`relative bg-blue-50 rounded-full border p-3 shadow-sm transition-colors ${
                 selected ? "border-blue-500 shadow-blue-200" : "border-blue-300"
             }`}>
-                <div className={`absolute top-3 left-3 text-blue-300`}>
+                <div className={`absolute top-3 right-3 text-blue-300`}>
                     <BookText />
                 </div>
                 <div className={`text-center`}>
