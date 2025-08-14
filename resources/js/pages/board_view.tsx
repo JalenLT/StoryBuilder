@@ -1,5 +1,8 @@
 import { useState, useCallback } from 'react';
-import { ReactFlow, Background, Controls, Panel, applyEdgeChanges, applyNodeChanges, NodeChange, Node, Edge, EdgeChange, addEdge, type OnConnect } from '@xyflow/react';
+import { ReactFlow, Background, Controls, applyEdgeChanges, applyNodeChanges, NodeChange, Node, Edge, EdgeChange, addEdge, type OnConnect } from '@xyflow/react';
+import { NodeData } from '@/types';
+import Inspector from '@/components/inspector/show';
+import { useInspectorStore } from '@/components/inspector/store';
 import '@xyflow/react/dist/style.css';
 
 import StoryNode from '@/components/nodes/story';
@@ -12,7 +15,16 @@ const initialNodes: Node[] = [
     {
         id: 'block:1',
         position: { x: 100, y: 100 },
-        data: { label: "Fate's Gambit", description: "A deck of cards. A game of power. A fate worth daring." },
+        data: { 
+            label: {
+                value: "Fate's Gambit",
+                type: 'string'
+            }, 
+            description: {
+                value: 'A deck of cards. A game of power. A fate worth daring.',
+                type: 'text'
+            },
+        },
         type: 'story'
     },
     {
@@ -48,6 +60,14 @@ export default function BoardView(){
         (params) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
         []
     );
+    const updateNodeData = useCallback((id: string, patch: Partial<NodeData>) => {
+        setNodes((nodesSnapshot) => 
+            nodesSnapshot.map(node => 
+                node.id === id ? { ...node, data: { ...node.data, ...patch } } : node
+            )
+        );
+    }, [setNodes]);
+    const setSelectedId = useInspectorStore((state) => state.setSelectedId);
 
     return (
         <div style={{ height: '100vh', width: '100vw' }}>
@@ -57,11 +77,12 @@ export default function BoardView(){
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                onPaneClick={() => setSelectedId(undefined)}
                 nodeTypes={nodeTypes}
                 fitView>
                 <Background />
                 <Controls />
-                <Panel position='bottom-right'>Inspector</Panel>
+                <Inspector nodes={nodes} updateNodeData={updateNodeData} />
             </ReactFlow>
         </div>
     );

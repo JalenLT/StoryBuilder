@@ -41,3 +41,8 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export type NodeData = {
+    label?:  {value: string, type: string};
+    description?:  {value: string, type: string};
+}
