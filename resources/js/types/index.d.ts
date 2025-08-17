@@ -43,6 +43,5 @@ export interface User {
 }
 
 export type NodeData = {
-    label?:  {value: string, type: string};
-    description?:  {value: string, type: string};
+    key?:  {value: string, type: string, options?: {value: string, label: string}[]};
 }

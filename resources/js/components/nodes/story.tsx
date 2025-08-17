@@ -13,14 +13,15 @@ function StoryNode({id, data, isConnectable, selected}: {id: string,data: StoryD
 
     return (
         <>
-            <div 
-                className={`relative bg-blue-50 rounded-full border p-3 shadow-sm transition-colors ${ selected ? "border-blue-500 shadow-blue-200" : "border-blue-300" }`}
+            <div
+                className={`relative bg-blue-50 rounded-full border p-3 shadow-sm transition-colors min-h-13 ${ selected ? "border-blue-500 shadow-blue-200" : "border-blue-300" }`}
                 onClick={() => setSelectedId(id)}
             >
-                <div className={`absolute top-3 right-3 text-blue-300`}>
+                <div className={`absolute top-3 right-3 flex items-center text-blue-300`}>
                     <BookText />
+                    <span>Story</span>
                 </div>
-                <div className={`text-center`}>
+                <div className={`text-lg text-center mx-25`}>
                     <strong>{data.label.value}</strong>
                 </div>
                 <div className={`text-center`}>

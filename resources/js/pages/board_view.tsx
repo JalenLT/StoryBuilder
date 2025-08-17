@@ -6,20 +6,24 @@ import { useInspectorStore } from '@/components/inspector/store';
 import '@xyflow/react/dist/style.css';
 
 import StoryNode from '@/components/nodes/story';
+import FeatureNode from '@/components/nodes/feature';
+import SettingNode from '@/components/nodes/setting';
 
 const nodeTypes = {
-    story: StoryNode
+    story: StoryNode,
+    feature: FeatureNode,
+    setting: SettingNode
 };
 
 const initialNodes: Node[] = [
     {
         id: 'block:1',
         position: { x: 100, y: 100 },
-        data: { 
+        data: {
             label: {
                 value: "Fate's Gambit",
                 type: 'string'
-            }, 
+            },
             description: {
                 value: 'A deck of cards. A game of power. A fate worth daring.',
                 type: 'text'
@@ -29,9 +33,99 @@ const initialNodes: Node[] = [
     },
     {
         id: 'block:2',
-        position: { x: 300, y: 200 },
-        data: { label: 'Block 2' },
-    }
+        position: { x: 400, y: 300},
+        data: {
+            name: {
+                value: "Tower's Dimensional Door",
+                type: 'string'
+            },
+            type: {
+                value: 'Building Component',
+                type: 'string'
+            },
+            description: {
+                value: "Colossal double doors, crafted from aged oak and bound in iron bands, marked its entrance. They matched the tower’s base exactly, two doors side by side, each easily twice Marmalade’s height. Their surfaces were etched with faint patterns, concentric circles fading toward the centre, worn almost smooth by time.",
+                type: 'text'
+            },
+            story_id: {
+                value: 1,
+                type: 'integer'
+            }
+        },
+        type: 'feature'
+    },
+    {
+        id: 'block:3',
+        position: { x: 100, y: 600},
+        data: {
+            name: {
+                value: "The Tower",
+                type: 'string'
+            },
+            description: {
+                value: `
+                    The tower rises impossibly from the heart of a small isle, its form both awe-inspiring and unnerving. From a distance it resembles a colossal spiral shell stripped raw, its structure splitting into different sections as it climbs toward the heavens.
+
+                    Base: The lowest tiers are carved from storm-black stone, solid and oppressive.
+
+                    Mid-section: Above that, rusted steel girders lace the structure, like an exposed skeleton holding fractured weight.
+
+                    Upper tiers: Higher still, crystalline arches bloom into a fractal crown, drifting apart as though suspended in slow motion.
+
+                    Summit: Each ledge narrows until the tower culminates in a jagged spire, impossibly delicate yet unwaveringly tall.
+
+                    The golden embers of the setting sun catch its edges, painting the tower in streaks of firelight. At once ancient, industrial, and alien, the monument appears less built than conjured—an architecture that defies reason, flickering into existence like magnetic fluid drawn to its unseen core.
+                `,
+                type: 'text'
+            },
+            world: {
+                value: 'Earth',
+                type: 'string'
+            },
+            era: {
+                value: 'Modern',
+                type: 'select',
+                options: [
+                    { value: 'Prehistoric', label: 'Prehistoric' },
+                    { value: 'Ancient', label: 'Ancient' },
+                    { value: 'Classical', label: 'Classical' },
+                    { value: 'Medieval', label: 'Medieval' },
+                    { value: 'Renaissance', label: 'Renaissance' },
+                    { value: 'Early Modern', label: 'Early Modern' },
+                    { value: 'Industrial', label: 'Industrial' },
+                    { value: 'Modern', label: 'Modern' },
+                    { value: 'Contemporary', label: 'Contemporary' },
+                    { value: 'Futuristic', label: 'Futuristic' },
+                    { value: 'Post-Apocalyptic', label: 'Post-Apocalyptic' },
+                    { value: 'Fantasy', label: 'Fantasy' },
+                    { value: 'Mythic', label: 'Mythic' },
+                ]
+            },
+            climate: {
+                value: 'Tropical',
+                type: 'select',
+                options: [
+                    { value: 'Arctic / Polar', label: 'Arctic / Polar' },
+                    { value: 'Cold / Boreal', label: 'Cold / Boreal' },
+                    { value: 'Temperate', label: 'Temperate' },
+                    { value: 'Mediterranean', label: 'Mediterranean' },
+                    { value: 'Desert / Arid', label: 'Desert / Arid' },
+                    { value: 'Tropical', label: 'Tropical' },
+                    { value: 'Savanna', label: 'Savanna' },
+                    { value: 'Steppe / Plains', label: 'Steppe / Plains' },
+                    { value: 'Mountain / Highland', label: 'Mountain / Highland' },
+                    { value: 'Oceanic / Coastal', label: 'Oceanic / Coastal' },
+                    { value: 'Swamp / Wetland', label: 'Swamp / Wetland' },
+                ]
+            },
+            story_id: {
+                value: 1,
+                type: 'integer'
+            }
+        },
+        type: 'setting',
+        connectable: true
+    },
 ];
 
 const initialEdges: Edge[] = [
@@ -61,8 +155,8 @@ export default function BoardView(){
         []
     );
     const updateNodeData = useCallback((id: string, patch: Partial<NodeData>) => {
-        setNodes((nodesSnapshot) => 
-            nodesSnapshot.map(node => 
+        setNodes((nodesSnapshot) =>
+            nodesSnapshot.map(node =>
                 node.id === id ? { ...node, data: { ...node.data, ...patch } } : node
             )
         );
