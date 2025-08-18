@@ -3,6 +3,16 @@ import { NodeData } from '@/types';
 import { useInspectorStore } from './store';
 import { useMemo } from 'react';
 import '@xyflow/react/dist/style.css';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function capitalizeFirstLetter(str: string) {
   if (!str) return str; // handle empty string
@@ -29,49 +39,54 @@ export default function Inspector({ nodes, updateNodeData }: InspectorProps){
                 <h4><strong>Inspector</strong></h4>
                 <div className={'p-3'}>
                     {Object.entries(node.data).map(([key, value]) => (
-                        <div className='mb-3'>
-                            <label className="block mb-2 text-sm font-medium text-gray-900">{capitalizeFirstLetter(key)}</label>
-                            {value.type === 'string' && (
-                                <input
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                                    value={value.value ?? ''}
-                                    onChange={(e) =>
+                        <div key={key} className='mb-3'>
+                            <Label htmlFor={key} className='mb-3'>{capitalizeFirstLetter(key)}</Label>
+                            <div className='max-w-100'>
+                                {value.type === 'string' && (
+                                    <Input 
+                                        type='text' 
+                                        value={value.value ?? ''} 
+                                        id={key} 
+                                        placeholder={key} 
+                                        onChange={(e) =>
                                         updateNodeData(node.id, { [key]: { value: e.target.value, type: value.type } })
-                                    }
-                                />
-                            )}
-                            {value.type === 'text' && (
-                                <textarea
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                                    placeholder="Write your thoughts here..."
-                                    value={value.value ?? ''}
-                                    onChange={(e) =>
+                                    } />
+                                )}
+                                {value.type === 'text' && (
+                                    <Textarea 
+                                        value={value.value ?? ''} 
+                                        id={key} 
+                                        placeholder={key} 
+                                        className='max-h-48 overflow-y-auto resize-y'
+                                        onChange={(e) =>
                                         updateNodeData(node.id, { [key]: { value: e.target.value, type: value.type } })
-                                    }
-                                />
-                            )}
-                            {value.type === 'integer' && (
-                                <input type='number'
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                                    value={value.value ?? ''}
-                                    onChange={(e) =>
+                                    } />
+                                )}
+                                {value.type === 'integer' && (
+                                    <Input 
+                                        type='number' 
+                                        value={value.value ?? ''} 
+                                        id={key} 
+                                        placeholder={key} 
+                                        onChange={(e) =>
                                         updateNodeData(node.id, { [key]: { value: e.target.value, type: value.type } })
-                                    }
-                                />
-                            )}
-                            {value.type === 'select' && (
-                                <select
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                                    value={value.value ?? ''}
-                                    onChange={(e) =>
-                                        updateNodeData(node.id, { [key]: { value: e.target.value, type: value.type, options: value.options } })
-                                    }
-                                >
-                                    {value.options?.map((option) => (
-                                        <option key={option.value} value={option.value}>{option.label}</option>
-                                    ))}
-                                </select>
-                            )}
+                                    } />
+                                )}
+                                {value.type === 'select' && (
+                                    <Select value={value.value ?? ''} onValueChange={(v) => 
+                                        updateNodeData(node.id, { [key]: { value: v, type: value.type, options: value.options } })
+                                    }>
+                                        <SelectTrigger className='w-full'>
+                                            <SelectValue placeholder={key} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {value.options?.map((option) => (
+                                                <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>
