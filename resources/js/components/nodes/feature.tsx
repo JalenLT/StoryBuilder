@@ -16,7 +16,7 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
 
     return (<>
         <div
-            className={`relative bg-green-50 rounded-4xl border p-3 shadow-sm transition-colors ${ selected ? "border-green-500 shadow-green-200" : "border-green-300" }`}
+            className={`relative bg-green-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-green-500 shadow-green-200" : "border-green-300" }`}
             onClick={() => setSelectedId(id)}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>

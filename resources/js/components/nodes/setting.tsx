@@ -12,13 +12,53 @@ type SettingData = {
     story_id: BigInteger
 };
 
+type ClimateData = {
+    label: string,
+    value: string
+}
+
+type EraData = {
+    label: string,
+    value: string
+}
+
+export const ClimateOptions: ClimateData[] = [
+    { value: 'Arctic / Polar', label: 'Arctic / Polar' },
+    { value: 'Cold / Boreal', label: 'Cold / Boreal' },
+    { value: 'Temperate', label: 'Temperate' },
+    { value: 'Mediterranean', label: 'Mediterranean' },
+    { value: 'Desert / Arid', label: 'Desert / Arid' },
+    { value: 'Tropical', label: 'Tropical' },
+    { value: 'Savanna', label: 'Savanna' },
+    { value: 'Steppe / Plains', label: 'Steppe / Plains' },
+    { value: 'Mountain / Highland', label: 'Mountain / Highland' },
+    { value: 'Oceanic / Coastal', label: 'Oceanic / Coastal' },
+    { value: 'Swamp / Wetland', label: 'Swamp / Wetland' },
+];
+
+export const EraOptions: EraData[] = [
+    { value: 'Prehistoric', label: 'Prehistoric' },
+    { value: 'Ancient', label: 'Ancient' },
+    { value: 'Classical', label: 'Classical' },
+    { value: 'Medieval', label: 'Medieval' },
+    { value: 'Renaissance', label: 'Renaissance' },
+    { value: 'Early Modern', label: 'Early Modern' },
+    { value: 'Industrial', label: 'Industrial' },
+    { value: 'Modern', label: 'Modern' },
+    { value: 'Contemporary', label: 'Contemporary' },
+    { value: 'Futuristic', label: 'Futuristic' },
+    { value: 'Post-Apocalyptic', label: 'Post-Apocalyptic' },
+    { value: 'Fantasy', label: 'Fantasy' },
+    { value: 'Mythic', label: 'Mythic' },
+];
+
 function SettingNode({id, data, isConnectable, selected}: {id: string, data: SettingData, isConnectable: boolean, selected?: boolean}){
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
     const [show, setShow] = useState(false);
 
     return (<>
         <div
-            className={`relative bg-green-100 rounded-4xl border p-3 shadow-sm transition-colors ${ selected ? "border-green-800 shadow-green-200" : "border-green-500" }`}
+            className={`relative bg-green-100 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-green-800 shadow-green-200" : "border-green-500" }`}
             onClick={() => setSelectedId(id)}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>

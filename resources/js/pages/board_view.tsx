@@ -28,6 +28,16 @@ const initialNodes: Node[] = [
                 value: 'A deck of cards. A game of power. A fate worth daring.',
                 type: 'text'
             },
+            genres: {
+                value: ['Adventure', 'Fantasy'],
+                type: 'multiselect',
+                options: 'genre'
+            },
+            tags: {
+                value: [],
+                type: 'multiselect',
+                options: 'tag'
+            },
         },
         type: 'story'
     },
@@ -85,38 +95,12 @@ const initialNodes: Node[] = [
             era: {
                 value: 'Modern',
                 type: 'select',
-                options: [
-                    { value: 'Prehistoric', label: 'Prehistoric' },
-                    { value: 'Ancient', label: 'Ancient' },
-                    { value: 'Classical', label: 'Classical' },
-                    { value: 'Medieval', label: 'Medieval' },
-                    { value: 'Renaissance', label: 'Renaissance' },
-                    { value: 'Early Modern', label: 'Early Modern' },
-                    { value: 'Industrial', label: 'Industrial' },
-                    { value: 'Modern', label: 'Modern' },
-                    { value: 'Contemporary', label: 'Contemporary' },
-                    { value: 'Futuristic', label: 'Futuristic' },
-                    { value: 'Post-Apocalyptic', label: 'Post-Apocalyptic' },
-                    { value: 'Fantasy', label: 'Fantasy' },
-                    { value: 'Mythic', label: 'Mythic' },
-                ]
+                options: 'era'
             },
             climate: {
                 value: 'Tropical',
                 type: 'select',
-                options: [
-                    { value: 'Arctic / Polar', label: 'Arctic / Polar' },
-                    { value: 'Cold / Boreal', label: 'Cold / Boreal' },
-                    { value: 'Temperate', label: 'Temperate' },
-                    { value: 'Mediterranean', label: 'Mediterranean' },
-                    { value: 'Desert / Arid', label: 'Desert / Arid' },
-                    { value: 'Tropical', label: 'Tropical' },
-                    { value: 'Savanna', label: 'Savanna' },
-                    { value: 'Steppe / Plains', label: 'Steppe / Plains' },
-                    { value: 'Mountain / Highland', label: 'Mountain / Highland' },
-                    { value: 'Oceanic / Coastal', label: 'Oceanic / Coastal' },
-                    { value: 'Swamp / Wetland', label: 'Swamp / Wetland' },
-                ]
+                options: 'climate'
             },
             story_id: {
                 value: 1,

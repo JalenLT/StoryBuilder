@@ -13,6 +13,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  MultiSelect,
+  MultiSelectContent,
+  MultiSelectGroup,
+  MultiSelectItem,
+  MultiSelectTrigger,
+  MultiSelectValue,
+} from "@/components/ui/multi-select";
+import { GenreOptions, TagOptions } from '../nodes/story';
+import { EraOptions, ClimateOptions } from '../nodes/setting';
 
 function capitalizeFirstLetter(str: string) {
   if (!str) return str; // handle empty string
@@ -80,11 +90,35 @@ export default function Inspector({ nodes, updateNodeData }: InspectorProps){
                                             <SelectValue placeholder={key} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {value.options?.map((option) => (
+                                            {value.options === 'climate' && ClimateOptions.map((option) => (
+                                                <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                                            ))}
+                                            {value.options === 'era' && EraOptions.map((option) => (
                                                 <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                )}
+                                {value.type === 'multiselect' && (
+                                    <MultiSelect 
+                                        defaultValues={[...value.value]}
+                                        onValuesChange={(v) => 
+                                            updateNodeData(node.id, { [key]: { value: v, type: value.type, options: value.options } })
+                                        }>
+                                        <MultiSelectTrigger className="w-full max-w-[400px]">
+                                            <MultiSelectValue placeholder="Select options..." />
+                                        </MultiSelectTrigger>
+                                        <MultiSelectContent>
+                                            <MultiSelectGroup>
+                                                {value.options === 'genre' && GenreOptions.map((option) => (
+                                                    <MultiSelectItem key={option.value} value={option.value}>{option.label}</MultiSelectItem>
+                                                ))}
+                                                {value.options === 'tag' && TagOptions.map((option) => (
+                                                    <MultiSelectItem key={option.value} value={option.value}>{option.label}</MultiSelectItem>
+                                                ))}
+                                            </MultiSelectGroup>
+                                        </MultiSelectContent>
+                                    </MultiSelect>
                                 )}
                             </div>
                         </div>
