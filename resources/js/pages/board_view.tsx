@@ -8,11 +8,13 @@ import '@xyflow/react/dist/style.css';
 import StoryNode from '@/components/nodes/story';
 import FeatureNode from '@/components/nodes/feature';
 import SettingNode from '@/components/nodes/setting';
+import CharacterNode from '@/components/nodes/character';
 
 const nodeTypes = {
     story: StoryNode,
     feature: FeatureNode,
-    setting: SettingNode
+    setting: SettingNode,
+    character: CharacterNode
 };
 
 const initialNodes: Node[] = [
@@ -109,6 +111,49 @@ const initialNodes: Node[] = [
         },
         type: 'setting',
         connectable: true
+    },
+    {
+        id: 'block:4',
+        position: { x: 400, y: 1000},
+        data: {
+            first_name: {
+                value: 'Marmalade',
+                type: 'string'
+            },
+            last_name: {
+                value: 'Gray',
+                type: 'string'
+            },
+            alias: {
+                value: "Marm",
+                type: 'string'
+            },
+            age: {
+                value: 28,
+                type: 'integer'
+            },
+            gender: {
+                value: 'Male',
+                type: 'select',
+                options: 'gender'
+            },
+            description: {
+                value: "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper suscipit interdum. Duis feugiat vehicula eros, vel congue erat tristique vel. Aenean eget congue massa. Etiam mollis neque risus, ut scelerisque tortor lobortis eget.",
+                type: 'text'
+            },
+            background: {
+                value: "Background: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper suscipit interdum. Duis feugiat vehicula eros, vel congue erat tristique vel. Aenean eget congue massa. Etiam mollis neque risus, ut scelerisque tortor lobortis eget.",
+                type: 'text'
+            },
+            motivation: {
+                value: "Motivation: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper suscipit interdum. Duis feugiat vehicula eros, vel congue erat tristique vel. Aenean eget congue massa. Etiam mollis neque risus, ut scelerisque tortor lobortis eget.",
+                type: 'text'
+            },
+            story_id: 1,
+            creator_id: 1,
+            setting_id: 1
+        },
+        type: 'character'
     },
 ];
 
