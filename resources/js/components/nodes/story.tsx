@@ -98,18 +98,18 @@ function StoryNode({id, data, isConnectable, selected}: {id: string,data: StoryD
     return (
         <>
             <div
-                className={`relative bg-blue-50 rounded-full border p-3 shadow-sm transition-colors min-h-13 max-w-2xl ${ selected ? "border-blue-500 shadow-blue-200" : "border-blue-300" }`}
+                className={`relative bg-blue-50 rounded-full border p-3 shadow-sm transition-colors min-h-13 max-w-2xl ${ selected ? "border-blue-700 shadow-blue-200 ring-1 ring-blue-200" : "border-blue-400 hover:border-blue-500" }`}
                 onClick={() => setSelectedId(id)}
             >
-                <div className={`absolute top-3 right-3 flex items-center text-blue-300`}>
-                    <BookText />
-                    <span>Story</span>
+                <div className={`absolute top-3 right-3 flex items-center text-blue-600`}>
+                    <BookText className="mr-1" />
+                    <span className='text-sm'>Story</span>
                 </div>
                 <div className={`text-lg text-center mx-25`}>
-                    <strong>{data.label.value}</strong>
+                    <strong className="text-slate-900">{data.label.value}</strong>
                 </div>
                 <div className={`text-center`}>
-                    <span className="text-gray-500">{data.description.value}</span>
+                    <span className="text-gray-600">{data.description.value}</span>
                 </div>
                 <Handle type="source" position={Position.Right} isConnectable={isConnectable} />
             </div>

@@ -72,7 +72,7 @@ function SettingNode({
                         e.stopPropagation();
                         setShow(!show);
                     }}
-                    className="opacity-70 hover:opacity-100 transition-opacity"
+                    className="opacity-75 hover:opacity-100 transition-opacity"
                 >
                     {show ? <EyeClosed /> : <Eye />}
                 </button>

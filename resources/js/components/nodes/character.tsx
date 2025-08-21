@@ -34,32 +34,39 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
 
     return (<>
         <div
-            className={`relative bg-purple-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-purple-500 shadow-purple-200" : "border-purple-300" }`}
+            className={`relative max-w-2xl rounded-4xl bg-purple-50 shadow-sm border p-3 transition-colors 
+            ${ selected ? "border-purple-700 shadow-purple-200 ring-1 ring-purple-200" : "border-purple-400 hover:border-purple-500" }`}
             onClick={() => setSelectedId(id)}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>
                 <button onClick={(e) => {
                     e.stopPropagation();
                     setShow(!show);
-                }}>
+                    }}
+                    className="opacity-75 hover:opacity-100 transition-opacity"
+                >
                     {show ? <EyeClosed /> : <Eye />}
                 </button>
             </div>
-            <div className={`absolute top-3 right-3 text-purple-300 flex items-center`}>
+            <div className={`absolute top-3 right-3 text-purple-600 flex items-center`}>
                 <PersonStanding className="mr-1" />
-                <span>Character</span>
+                <span className="text-sm">Character</span>
             </div>
-            <div className="text-lg text-center mx-35 flex items-center justify-center gap-1">
-                <strong>{data.first_name.value} {data.last_name.value}</strong>
-                <sub>{data.alias.value}</sub>
+            <div className="text-lg text-center mx-35 flex items-baseline justify-center gap-2">
+                <strong className="text-slate-900">{data.first_name.value} {data.last_name.value}</strong>
+                <sub className="text-slate-700">{data.alias.value}</sub>
                 {data.gender.value === 'Male' ? (
                 <Mars className="text-blue-600 inline-block" />
                 ) : (
                 <Venus className="text-red-600 inline-block" />
                 )}
             </div>
-            <div className='text-center'>
-                Age {data.age.value}
+            <div className={`text-center ${ show ? 'mb-3' : 'mb-0'}`}>
+                {data.age?.value && (
+                    <span className="px-2 py-0.5 rounded-full text-xs bg-purple-100 text-purple-700">
+                        Age {data.age.value}
+                    </span>
+                )}
             </div>
             <div className={`text-center`}>
                 {show && (
@@ -84,9 +91,9 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
                                 Motivation
                             </TabsTrigger>}
                         </TabsList>
-                        {data.description && <TabsContent value="description">{data.description.value}</TabsContent>}
-                        {data.background && <TabsContent value="background">{data.background.value}</TabsContent>}
-                        {data.motivation && <TabsContent value="motivation">{data.motivation.value}</TabsContent>}
+                        {data.description && <TabsContent value="description" className="text-gray-600">{data.description.value}</TabsContent>}
+                        {data.background && <TabsContent value="background" className="text-gray-600">{data.background.value}</TabsContent>}
+                        {data.motivation && <TabsContent value="motivation" className="text-gray-600">{data.motivation.value}</TabsContent>}
                     </Tabs>
                 )}
             </div>
