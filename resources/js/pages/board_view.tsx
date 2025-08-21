@@ -9,12 +9,14 @@ import StoryNode from '@/components/nodes/story';
 import FeatureNode from '@/components/nodes/feature';
 import SettingNode from '@/components/nodes/setting';
 import CharacterNode from '@/components/nodes/character';
+import SceneNode from '@/components/nodes/scene';
 
 const nodeTypes = {
     story: StoryNode,
     feature: FeatureNode,
     setting: SettingNode,
-    character: CharacterNode
+    character: CharacterNode,
+    scene: SceneNode
 };
 
 const initialNodes: Node[] = [
@@ -155,6 +157,46 @@ const initialNodes: Node[] = [
         },
         type: 'character'
     },
+    {
+        id: 'block:5',
+        position: { x: 600, y: 1400},
+        data: {
+            title: {
+                value: "The Endless Repeat",
+                type: 'string'
+            },
+            points: {
+                points: [
+                    {
+                        text: {
+                            value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            type: "string"
+                        },
+                        creator_id: 1
+                    },
+                    {
+                        text: {
+                            value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            type: "string"
+                        },
+                        creator_id: 1
+                    },
+                    {
+                        text: {
+                            value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                            type: "string"
+                        },
+                        creator_id: 1
+                    },
+                ],
+                type: 'array'
+            },
+            creator_id: 1,
+            story_id: 1,
+            setting_id: 1,
+        },
+        type: 'scene'
+    }
 ];
 
 const initialEdges: Edge[] = [

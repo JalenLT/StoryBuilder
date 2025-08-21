@@ -6,6 +6,7 @@ import '@xyflow/react/dist/style.css';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -24,6 +25,7 @@ import {
 import { GenreOptions, TagOptions } from '../nodes/story';
 import { EraOptions, ClimateOptions } from '../nodes/setting';
 import { GenderOptions } from '../nodes/character';
+import { Trash2 } from 'lucide-react';
 
 function capitalizeFirstLetter(str: string) {
   if (!str) return str; // handle empty string
@@ -160,6 +162,18 @@ export default function Inspector({ nodes, updateNodeData }: InspectorProps){
                                                 </MultiSelectGroup>
                                             </MultiSelectContent>
                                         </MultiSelect>
+                                    )}
+                                    {value.type === 'array' && (
+                                        <>
+                                            {value.points?.map((point) => (
+                                                <div className="flex w-full max-w-sm items-center gap-2 mb-3">
+                                                    <Input type="text" defaultValue={point.text.value} />
+                                                    <Button size="icon" className='border border-red-500 bg-white hoverable:bg-red-50'>
+                                                        <Trash2 className="text-red-500" />
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </>
                                     )}
                                 </div>
                             </div>

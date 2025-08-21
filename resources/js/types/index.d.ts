@@ -42,6 +42,19 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
+type PointData = {
+    text: {
+        value: string;
+        type: string;
+    };
+    creator_id: BigInteger;
+}
+
 export type NodeData = {
-    key?:  {value: string, type: string, options?: string};
+    key?:  {
+        value: string, 
+        type: string, 
+        options?: string,
+        points?: PointData[]
+    };
 }

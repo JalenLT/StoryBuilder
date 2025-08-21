@@ -16,7 +16,7 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
 
     return (<>
         <div
-            className={`relative bg-green-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-green-700 shadow-green-200 ring-1 ring-green-200" : "border-green-400 hover:border-green-500" }`}
+            className={`relative bg-lime-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-lime-700 shadow-lime-200 ring-1 ring-lime-200" : "border-lime-400 hover:border-lime-500" }`}
             onClick={() => setSelectedId(id)}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>
@@ -29,7 +29,7 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
                     {show ? <EyeClosed /> : <Eye />}
                 </button>
             </div>
-            <div className={`absolute top-3 right-3 text-green-600 flex items-center`}>
+            <div className={`absolute top-3 right-3 text-lime-600 flex items-center`}>
                 <Shrub className="mr-1" />
                 <span className='text-sm'>Feature</span>
             </div>
