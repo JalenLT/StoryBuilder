@@ -4,6 +4,7 @@ import { Trees, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 
 type SettingData = {
+    id: string,
     name: { value: string; type: string };
     description: { value: string; type: string };
     world?: { value: string; type: string };
@@ -63,7 +64,7 @@ function SettingNode({
         <>
         <div
             className={`relative max-w-2xl rounded-4xl border p-3 shadow-sm transition-colors bg-green-50
-            ${selected ? 'border-green-700 shadow-green-200 ring-1 ring-green-200' : 'border-green-400 hover:border-green-500'}`}
+            ${selected ? 'border-green-700 shadow-green-200 ring-1 ring-green-200' : 'border-green-400 hoverable:border-green-500'}`}
             onClick={() => setSelectedId(id)}
         >
             <div className="absolute top-3 left-3 text-slate-800">
@@ -72,7 +73,7 @@ function SettingNode({
                         e.stopPropagation();
                         setShow(!show);
                     }}
-                    className="opacity-75 hover:opacity-100 transition-opacity"
+                    className="opacity-75 hoverable:opacity-100 transition-opacity"
                 >
                     {show ? <EyeClosed /> : <Eye />}
                 </button>
@@ -112,8 +113,8 @@ function SettingNode({
                 {show && <span className="text-gray-600">{data.description.value}</span>}
             </div>
 
-            <Handle type="target" position={Position.Left} isConnectable={isConnectable} />
-            <Handle type="source" position={Position.Right} isConnectable={isConnectable} />
+            <Handle type="target" position={Position.Left} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
+            <Handle type="source" position={Position.Right} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
         </div>
         </>
     );

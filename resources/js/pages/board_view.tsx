@@ -24,6 +24,7 @@ const initialNodes: Node[] = [
         id: 'block:1',
         position: { x: 100, y: 100 },
         data: {
+            id: "1",
             label: {
                 value: "Fate's Gambit",
                 type: 'string'
@@ -49,6 +50,7 @@ const initialNodes: Node[] = [
         id: 'block:2',
         position: { x: 400, y: 300},
         data: {
+            id: "2",
             name: {
                 value: "Tower's Dimensional Door",
                 type: 'string'
@@ -72,6 +74,7 @@ const initialNodes: Node[] = [
         id: 'block:3',
         position: { x: 100, y: 600},
         data: {
+            id: "3",
             name: {
                 value: "The Tower",
                 type: 'string'
@@ -118,6 +121,7 @@ const initialNodes: Node[] = [
         id: 'block:4',
         position: { x: 400, y: 1000},
         data: {
+            id: "4",
             first_name: {
                 value: 'Marmalade',
                 type: 'string'
@@ -161,6 +165,7 @@ const initialNodes: Node[] = [
         id: 'block:5',
         position: { x: 600, y: 1400},
         data: {
+            id: "5",
             title: {
                 value: "The Endless Repeat",
                 type: 'string'
@@ -168,6 +173,7 @@ const initialNodes: Node[] = [
             points: {
                 points: [
                     {
+                        id: 1,
                         text: {
                             value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                             type: "string"
@@ -175,6 +181,7 @@ const initialNodes: Node[] = [
                         creator_id: 1
                     },
                     {
+                        id: 2,
                         text: {
                             value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                             type: "string"
@@ -182,6 +189,7 @@ const initialNodes: Node[] = [
                         creator_id: 1
                     },
                     {
+                        id: 3,
                         text: {
                             value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                             type: "string"

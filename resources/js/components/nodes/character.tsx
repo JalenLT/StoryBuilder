@@ -5,6 +5,7 @@ import { useInspectorStore } from '../inspector/store';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 type CharacterData = {
+    id: string;
     first_name: { value: string, type: string };
     last_name: { value: string, type: string };
     alias: { value: string, type: string };
@@ -35,7 +36,7 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
     return (<>
         <div
             className={`relative max-w-2xl rounded-4xl bg-purple-50 shadow-sm border p-3 transition-colors 
-            ${ selected ? "border-purple-700 shadow-purple-200 ring-1 ring-purple-200" : "border-purple-400 hover:border-purple-500" }`}
+            ${ selected ? "border-purple-700 shadow-purple-200 ring-1 ring-purple-200" : "border-purple-400 hoverable:border-purple-500" }`}
             onClick={() => setSelectedId(id)}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>
@@ -43,7 +44,7 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
                     e.stopPropagation();
                     setShow(!show);
                     }}
-                    className="opacity-75 hover:opacity-100 transition-opacity"
+                    className="opacity-75 hoverable:opacity-100 transition-opacity"
                 >
                     {show ? <EyeClosed /> : <Eye />}
                 </button>
@@ -97,8 +98,8 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
                     </Tabs>
                 )}
             </div>
-            <Handle type="target" position={Position.Left} isConnectable={isConnectable} />
-            <Handle type="source" position={Position.Right} isConnectable={isConnectable} />
+            <Handle type="target" position={Position.Left} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
+            <Handle type="source" position={Position.Right} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
         </div>
     </>);
 }

@@ -4,6 +4,7 @@ import { Shrub, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 
 type FeatureData = {
+    id: string;
     name: {value: string, type: string};
     type: {value: string, type: string};
     description: {value: string, type: string};
@@ -16,7 +17,7 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
 
     return (<>
         <div
-            className={`relative bg-lime-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-lime-700 shadow-lime-200 ring-1 ring-lime-200" : "border-lime-400 hover:border-lime-500" }`}
+            className={`relative bg-lime-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-lime-700 shadow-lime-200 ring-1 ring-lime-200" : "border-lime-400 hoverable:border-lime-500" }`}
             onClick={() => setSelectedId(id)}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>
@@ -24,7 +25,7 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
                         e.stopPropagation();
                         setShow(!show);
                     }}
-                    className="opacity-75 hover:opacity-100 transition-opacity"
+                    className="opacity-75 hoverable:opacity-100 transition-opacity"
                 >
                     {show ? <EyeClosed /> : <Eye />}
                 </button>
@@ -45,7 +46,7 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
             <div className={`text-center`}>
                 {show && <span className="text-gray-600">{data.description.value}</span>}
             </div>
-            <Handle type="source" position={Position.Right} isConnectable={isConnectable} />
+            <Handle type="source" position={Position.Right} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
         </div>
     </>);
 }

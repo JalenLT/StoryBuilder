@@ -43,6 +43,7 @@ export interface User {
 }
 
 type PointData = {
+    id: string;
     text: {
         value: string;
         type: string;
@@ -52,6 +53,7 @@ type PointData = {
 
 export type NodeData = {
     key?:  {
+        id: string,
         value: string, 
         type: string, 
         options?: string,

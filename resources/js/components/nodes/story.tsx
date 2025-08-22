@@ -4,6 +4,7 @@ import { BookText } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 
 type StoryData = {
+    id: string;
     label: {value: string, type: string};
     description:  {value: string, type: string};
     genres: {value: string[], type: string, options: string};
@@ -111,7 +112,7 @@ function StoryNode({id, data, isConnectable, selected}: {id: string,data: StoryD
                 <div className={`text-center`}>
                     <span className="text-gray-600">{data.description.value}</span>
                 </div>
-                <Handle type="source" position={Position.Right} isConnectable={isConnectable} />
+                <Handle type="source" position={Position.Right} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
             </div>
         </>
     );

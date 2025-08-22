@@ -5,6 +5,7 @@ import { useInspectorStore } from '../inspector/store';
 
 
 type PointData = {
+    id: string;
     text: {
         value: string;
         type: string;
@@ -13,6 +14,7 @@ type PointData = {
 }
 
 type SceneData = {
+    id: string,
     title: { value: string, type: string },
     points: { points: PointData[], type: string },
     creator_id: BigInteger,
@@ -26,7 +28,7 @@ function SceneNode({id, data, isConnectable, selected}: {id: string, data: Scene
 
     return (<>
         <div
-            className={`relative bg-slate-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-slate-700 shadow-slate-200 ring-1 ring-slate-200" : "border-slate-400 hover:border-slate-500" }`}
+            className={`relative bg-slate-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-slate-700 shadow-slate-200 ring-1 ring-slate-200" : "border-slate-400 hoverable:border-slate-500" }`}
             onClick={() => setSelectedId(id)}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>
@@ -34,7 +36,7 @@ function SceneNode({id, data, isConnectable, selected}: {id: string, data: Scene
                         e.stopPropagation();
                         setShow(!show);
                     }}
-                    className="opacity-75 hover:opacity-100 transition-opacity"
+                    className="opacity-75 hoverable:opacity-100 transition-opacity"
                 >
                     {show ? <EyeClosed /> : <Eye />}
                 </button>
@@ -46,7 +48,7 @@ function SceneNode({id, data, isConnectable, selected}: {id: string, data: Scene
             <div className={`text-lg text-center mx-25 flex items-baseline justify-center gap-2`}>
                 <strong className="text-slate-900">{data.title.value}</strong>
             </div>
-            <div className={`text-center`}>
+            <div className={``}>
                 {show && (<>
                     <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
                         {data.points.points.map((point, index) => (
@@ -57,7 +59,8 @@ function SceneNode({id, data, isConnectable, selected}: {id: string, data: Scene
                     </ul>
                 </>)}
             </div>
-            <Handle type="source" position={Position.Right} isConnectable={isConnectable} />
+            <Handle type="target" position={Position.Left} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
+            <Handle type="source" position={Position.Right} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
         </div>
     </>);
 }

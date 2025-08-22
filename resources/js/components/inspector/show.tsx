@@ -25,7 +25,7 @@ import {
 import { GenreOptions, TagOptions } from '../nodes/story';
 import { EraOptions, ClimateOptions } from '../nodes/setting';
 import { GenderOptions } from '../nodes/character';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Plus } from 'lucide-react';
 
 function capitalizeFirstLetter(str: string) {
   if (!str) return str; // handle empty string
@@ -165,14 +165,56 @@ export default function Inspector({ nodes, updateNodeData }: InspectorProps){
                                     )}
                                     {value.type === 'array' && (
                                         <>
-                                            {value.points?.map((point) => (
-                                                <div className="flex w-full max-w-sm items-center gap-2 mb-3">
-                                                    <Input type="text" defaultValue={point.text.value} />
-                                                    <Button size="icon" className='border border-red-500 bg-white hoverable:bg-red-50'>
+                                            {value.points?.map((point, index) => (
+                                                <div
+                                                    key={point.id ?? `${node.id}-point-${index}`}     // ✅ add a stable key
+                                                    className="flex w-full max-w-sm items-center gap-2 mb-3"
+                                                >
+                                                    <Input
+                                                        type="text"
+                                                        defaultValue={point.text.value}
+                                                        onChange={(e) => {
+                                                        const nextPoints = value.points!.map((p, i) =>
+                                                            i === index
+                                                            ? {
+                                                                ...p,
+                                                                text: { ...p.text, value: e.target.value },
+                                                                }
+                                                            : p
+                                                        );
+
+                                                        updateNodeData(node.id, {
+                                                            [key]: { points: nextPoints, type: value.type },
+                                                        });
+                                                        }}
+                                                    />
+                                                    <Button 
+                                                        size="icon" 
+                                                        className="border border-red-500 bg-white hoverable:bg-red-50"
+                                                        onClick={() => {
+                                                            const nextPoints = value.points!.filter((p) => p.id !== point.id);
+                                                            updateNodeData(node.id, {
+                                                                [key]: { points: nextPoints, type: value.type },
+                                                            });
+                                                        }}
+                                                    >
                                                         <Trash2 className="text-red-500" />
                                                     </Button>
                                                 </div>
                                             ))}
+                                            <Button 
+                                                size="icon" 
+                                                className="border border-green-500 bg-white hoverable:bg-green-50 float-right"
+                                                onClick={() => {
+                                                    const lastPointId = value.points?.[value.points.length - 1]?.id;
+                                                    const nextPoints = [...value.points!, { id: lastPointId ? lastPointId + 1 : 1, text: { value: '' }, creator_id: 1 }];
+                                                    updateNodeData(node.id, {
+                                                        [key]: { points: nextPoints, type: value.type },
+                                                    });
+                                                }}
+                                            >
+                                                <Plus className="text-green-500" />
+                                            </Button>
                                         </>
                                     )}
                                 </div>
