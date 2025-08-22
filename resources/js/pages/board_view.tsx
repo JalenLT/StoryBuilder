@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { ReactFlow, Background, Controls, applyEdgeChanges, applyNodeChanges, NodeChange, Node, Edge, EdgeChange, addEdge, type OnConnect } from '@xyflow/react';
+import { useState, useCallback, useEffect } from 'react';
+import { ReactFlow, MiniMap, Background, Controls, applyEdgeChanges, applyNodeChanges, NodeChange, Node, Edge, EdgeChange, addEdge, type OnConnect } from '@xyflow/react';
 import { NodeData } from '@/types';
 import Inspector from '@/components/inspector/show';
 import { useInspectorStore } from '@/components/inspector/store';
@@ -242,6 +242,18 @@ export default function BoardView(){
     }, [setNodes]);
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
 
+    useEffect(() => {
+        const handleContextMenu = (e: Event) => {
+            e.preventDefault()
+        }
+
+        document.addEventListener("contextmenu", handleContextMenu)
+
+        return () => {
+            document.removeEventListener("contextmenu", handleContextMenu)
+        }
+    }, []);
+
     return (
         <div style={{ height: '100vh', width: '100vw' }}>
             <ReactFlow
@@ -252,7 +264,12 @@ export default function BoardView(){
                 onConnect={onConnect}
                 onPaneClick={() => setSelectedId(undefined)}
                 nodeTypes={nodeTypes}
-                fitView>
+                fitView
+            >
+                <MiniMap 
+                    nodeStrokeWidth={3} 
+                    position='top-right'
+                />
                 <Background />
                 <Controls />
                 <Inspector nodes={nodes} updateNodeData={updateNodeData} />
