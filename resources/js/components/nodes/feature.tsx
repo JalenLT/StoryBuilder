@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { Handle, Position } from '@xyflow/react';
+import { Handle, Position, useReactFlow } from '@xyflow/react';
 import { Shrub, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 import CustomNodeToolbar from '../node-toolbar';
@@ -14,6 +14,7 @@ type FeatureData = {
 
 function FeatureNode({id, data, isConnectable, selected}: {id: string, data: FeatureData, isConnectable: boolean, selected?: boolean}){
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
+    const { getNode } = useReactFlow();
     const [show, setShow] = useState(false);
 
     return (<>
@@ -48,7 +49,16 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
             <div className={`text-center`}>
                 {show && <span className="text-gray-600">{data.description.value}</span>}
             </div>
-            <Handle type="source" position={Position.Right} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
+            <Handle
+                type="source"
+                position={Position.Right}
+                isConnectable={isConnectable}
+                style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }}
+                isValidConnection={(connection) => {
+                    const target = getNode(connection.target);
+                    return target?.type === "setting";
+                }}
+            />
         </div>
     </>);
 }

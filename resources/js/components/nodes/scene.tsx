@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { Handle, Position } from '@xyflow/react';
+import { Handle, Position, useReactFlow } from '@xyflow/react';
 import { ScrollText, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 import CustomNodeToolbar from '../node-toolbar';
@@ -24,6 +24,7 @@ type SceneData = {
 
 function SceneNode({id, data, isConnectable, selected}: {id: string, data: SceneData, isConnectable: boolean, selected?: boolean}){
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
+    const { getNode } = useReactFlow();
     const [show, setShow] = useState(false);
 
     return (<>
@@ -60,8 +61,26 @@ function SceneNode({id, data, isConnectable, selected}: {id: string, data: Scene
                     </ul>
                 </>)}
             </div>
-            <Handle type="target" position={Position.Left} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
-            <Handle type="source" position={Position.Right} isConnectable={isConnectable} style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }} />
+            <Handle
+                type="target"
+                position={Position.Left}
+                isConnectable={isConnectable}
+                style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }}
+                isValidConnection={(connection) => {
+                    const source = getNode(connection.source);
+                    return source?.type === "setting" || source?.type === "character" || source?.type === "scene";
+                }}
+            />
+            <Handle
+                type="source"
+                position={Position.Right}
+                isConnectable={isConnectable}
+                style={{ width: '10px', height: '10px', backgroundColor: 'white', borderColor: 'black' }}
+                isValidConnection={(connection) => {
+                    const target = getNode(connection.target);
+                    return target?.type === "scene";
+                }}
+            />
         </div>
     </>);
 }
