@@ -13,6 +13,8 @@ import SceneNode from '@/components/nodes/scene';
 
 import PaneContextMenu from '@/components/pane-context-menu';
 
+import { SmartEdge } from '@/components/smart-edge';
+
 const nodeTypes = {
     story: StoryNode,
     feature: FeatureNode,
@@ -220,11 +222,18 @@ const initialEdges: Edge[] = [
 ];
 
 export default function BoardView(){
+    /*****************
+     *** INSPECTOR ***
+     *****************/
+    const setSelectedId = useInspectorStore((state) => state.setSelectedId);
+    const setCurrentAction = useInspectorStore((state) => state.setCurrentAction);
+
     /***********************
      *** NODES AND EDGES ***
      ***********************/
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
+    const edgeTypes = { smart: SmartEdge };
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
         []
@@ -234,7 +243,7 @@ export default function BoardView(){
         []
     );
     const onConnect: OnConnect = useCallback(
-        (params) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
+        (params) => setEdges((edgesSnapshot) => addEdge({...params, type: 'smart'}, edgesSnapshot)),
         []
     );
     const updateNodeData = useCallback((id: string, patch: Partial<NodeData>) => {
@@ -244,14 +253,20 @@ export default function BoardView(){
             )
         );
     }, [setNodes]);
+    const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
+        event.stopPropagation();
+        setSelectedId(edge.id);
+        setCurrentAction("view_edge");
+    }, [setSelectedId, setCurrentAction]);
 
     /*************************
      *** PANE CONTEXT MENU ***
      *************************/
-    const onPaneContextMenu = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-        e.preventDefault();
+    const [paneMenu, setPaneMenu] = useState<{ x: number, y: number } | null>(null);
+    const onPaneContextMenu = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+        event.preventDefault();
 
-        setPaneMenu({ x: e.clientX, y: e.clientY });
+        setPaneMenu({ x: event.clientX, y: event.clientY });
     }, []);
     const onPaneClick = useCallback(() => {
         setPaneMenu(null);
@@ -261,13 +276,6 @@ export default function BoardView(){
     const handleCloseMenu = () => {
         setPaneMenu(null);
     };
-    const [paneMenu, setPaneMenu] = useState<{ x: number, y: number } | null>(null);
-
-    /*****************
-     *** INSPECTOR ***
-     *****************/
-    const setSelectedId = useInspectorStore((state) => state.setSelectedId);
-    const setCurrentAction = useInspectorStore((state) => state.setCurrentAction);
 
     /********************************
      *** DISABLE RIGHT CLICK MENU ***
@@ -295,6 +303,9 @@ export default function BoardView(){
                     onConnect={onConnect}
                     onPaneClick={onPaneClick}
                     onPaneContextMenu={onPaneContextMenu}
+                    onEdgeClick={onEdgeClick}
+                    edgeTypes={edgeTypes}
+                    defaultEdgeOptions={{ type: "smart" }}
                     nodeTypes={nodeTypes}
                     fitView
                 >

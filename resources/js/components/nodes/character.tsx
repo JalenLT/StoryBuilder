@@ -43,7 +43,7 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
             ${ selected ? "border-purple-700 shadow-purple-200 ring-1 ring-purple-200" : "border-purple-400 hoverable:border-purple-500" }`}
             onClick={() => {
                 setSelectedId(id);
-                setCurrentAction("view");
+                setCurrentAction("view_node");
             }}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>

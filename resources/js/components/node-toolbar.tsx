@@ -63,7 +63,7 @@ export default function CustomNodeToolbar({id}: {id: string}){
                                 size="icon"
                                 className="border border-blue-500 bg-white hoverable:bg-blue-50 rounded-full"
                                 onClick={() => {
-                                    setCurrentAction("edit");
+                                    setCurrentAction("edit_node");
                                 }}
                             >
                                 <SquarePen className="text-blue-500" />

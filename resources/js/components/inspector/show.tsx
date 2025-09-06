@@ -40,7 +40,7 @@ type InspectorProps = {
 export default function Inspector({ nodes, updateNodeData }: InspectorProps){
     const selectedId = useInspectorStore((state) => state.selectedId);
     const currentAction = useInspectorStore((state) => state.currentAction);
-    const node = useMemo(() => nodes.find((node) => node.id === selectedId && currentAction === "edit"), [selectedId, nodes, currentAction]);
+    const node = useMemo(() => nodes.find((node) => node.id === selectedId && currentAction === "edit_node"), [selectedId, nodes, currentAction]);
 
     if (!node) return <Panel position='bottom-right'>No node selected</Panel>;
 
