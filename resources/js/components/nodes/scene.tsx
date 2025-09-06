@@ -46,7 +46,7 @@ function SceneNode({id, data, isConnectable, selected}: {id: string, data: Scene
                 <span className='text-sm'>Scene</span>
             </div>
             <div className={`text-lg text-center mx-25 flex items-baseline justify-center gap-2`}>
-                <strong className="text-slate-900">{data.title.value}</strong>
+                <strong className="text-slate-900">{data.title?.value ? data.title.value : <span className="text-slate-500">--Unknown--</span>}</strong>
             </div>
             <div className={``}>
                 {show && (<>

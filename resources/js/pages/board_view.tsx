@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import { ReactFlow, MiniMap, Background, Controls, applyEdgeChanges, applyNodeChanges, NodeChange, Node, Edge, EdgeChange, addEdge, type OnConnect } from '@xyflow/react';
+import { useState, useCallback, useEffect, MouseEvent } from 'react';
+import { ReactFlow, MiniMap, Background, Controls, applyEdgeChanges, applyNodeChanges, NodeChange, Node, Edge, EdgeChange, addEdge, type OnConnect, ReactFlowProvider } from '@xyflow/react';
 import { NodeData } from '@/types';
 import Inspector from '@/components/inspector/show';
 import { useInspectorStore } from '@/components/inspector/store';
@@ -10,6 +10,8 @@ import FeatureNode from '@/components/nodes/feature';
 import SettingNode from '@/components/nodes/setting';
 import CharacterNode from '@/components/nodes/character';
 import SceneNode from '@/components/nodes/scene';
+
+import PaneContextMenu from '@/components/pane-context-menu';
 
 const nodeTypes = {
     story: StoryNode,
@@ -218,9 +220,11 @@ const initialEdges: Edge[] = [
 ];
 
 export default function BoardView(){
+    /***********************
+     *** NODES AND EDGES ***
+     ***********************/
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
-
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
         []
@@ -240,40 +244,68 @@ export default function BoardView(){
             )
         );
     }, [setNodes]);
+
+    /*************************
+     *** PANE CONTEXT MENU ***
+     *************************/
+    const onPaneContextMenu = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+        e.preventDefault();
+
+        setPaneMenu({ x: e.clientX, y: e.clientY });
+    }, []);
+    const onPaneClick = useCallback(() => {
+        setPaneMenu(null);
+        setSelectedId(undefined);
+    }, []);
+    const handleCloseMenu = () => {
+        setPaneMenu(null);
+    };
+    const [paneMenu, setPaneMenu] = useState<{ x: number, y: number } | null>(null);
+
+    /*****************
+     *** INSPECTOR ***
+     *****************/
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
 
-    useEffect(() => {
-        const handleContextMenu = (e: Event) => {
-            e.preventDefault()
-        }
+    /********************************
+     *** DISABLE RIGHT CLICK MENU ***
+     ********************************/
+    // useEffect(() => {
+    //     const handleContextMenu = (e: Event) => {
+    //         e.preventDefault()
+    //     }
 
-        document.addEventListener("contextmenu", handleContextMenu)
+    //     document.addEventListener("contextmenu", handleContextMenu)
 
-        return () => {
-            document.removeEventListener("contextmenu", handleContextMenu)
-        }
-    }, []);
+    //     return () => {
+    //         document.removeEventListener("contextmenu", handleContextMenu)
+    //     }
+    // }, []);
 
     return (
         <div style={{ height: '100vh', width: '100vw' }}>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                onPaneClick={() => setSelectedId(undefined)}
-                nodeTypes={nodeTypes}
-                fitView
-            >
-                <MiniMap 
-                    nodeStrokeWidth={3} 
-                    position='top-right'
-                />
-                <Background />
-                <Controls />
-                <Inspector nodes={nodes} updateNodeData={updateNodeData} />
-            </ReactFlow>
+            <ReactFlowProvider>
+                <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    onPaneClick={onPaneClick}
+                    onPaneContextMenu={onPaneContextMenu}
+                    nodeTypes={nodeTypes}
+                    fitView
+                >
+                    <MiniMap
+                        nodeStrokeWidth={3}
+                        position='top-right'
+                    />
+                    <Background />
+                    <Controls />
+                    <Inspector nodes={nodes} updateNodeData={updateNodeData} />
+                </ReactFlow>
+                {paneMenu && <PaneContextMenu x={paneMenu.x} y={paneMenu.y} onClose={handleCloseMenu} createNode={setNodes} />}
+            </ReactFlowProvider>
         </div>
     );
 }

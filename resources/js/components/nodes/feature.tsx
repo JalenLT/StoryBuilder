@@ -35,7 +35,7 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
                 <span className='text-sm'>Feature</span>
             </div>
             <div className={`text-lg text-center mx-25 flex items-baseline justify-center gap-2`}>
-                <strong className="text-slate-900">{data.name.value}</strong>
+                <strong className="text-slate-900">{data.name?.value ? data.name.value : <span className="text-slate-500">--Unknown--</span>}</strong>
                 {data.type?.value && (
                     <>
                         <span className="text-slate-300">|</span>

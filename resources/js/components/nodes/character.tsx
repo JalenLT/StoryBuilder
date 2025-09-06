@@ -35,7 +35,7 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
 
     return (<>
         <div
-            className={`relative max-w-2xl rounded-4xl bg-purple-50 shadow-sm border p-3 transition-colors 
+            className={`relative max-w-2xl rounded-4xl bg-purple-50 shadow-sm border p-3 transition-colors
             ${ selected ? "border-purple-700 shadow-purple-200 ring-1 ring-purple-200" : "border-purple-400 hoverable:border-purple-500" }`}
             onClick={() => setSelectedId(id)}
         >
@@ -54,12 +54,14 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
                 <span className="text-sm">Character</span>
             </div>
             <div className="text-lg text-center mx-35 flex items-baseline justify-center gap-2">
-                <strong className="text-slate-900">{data.first_name.value} {data.last_name.value}</strong>
+                <strong className="text-slate-900">{data.first_name?.value ? data.first_name.value + " " + data.last_name.value : <span className="text-slate-500">--Unknown--</span>}</strong>
                 <sub className="text-slate-700">{data.alias.value}</sub>
-                {data.gender.value === 'Male' ? (
-                <Mars className="text-blue-600 inline-block" />
-                ) : (
-                <Venus className="text-red-600 inline-block" />
+                {data.gender?.value &&
+                    (data.gender.value === "Male" ? (
+                        <Mars className="text-blue-600 inline-block" />
+                    ) : (
+                        <Venus className="text-red-600 inline-block" />
+                    )
                 )}
             </div>
             <div className={`text-center ${ show ? 'mb-3' : 'mb-0'}`}>
@@ -73,20 +75,20 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
                 {show && (
                     <Tabs defaultValue="description" className="w-full flex items-center content-center">
                         <TabsList className='bg-transparent border border-purple-200'>
-                            {data.description && <TabsTrigger 
-                                value="description" 
+                            {data.description && <TabsTrigger
+                                value="description"
                                 className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 data-[state=active]:shadow-sm"
                             >
                                 Description
                             </TabsTrigger>}
-                            {data.background && <TabsTrigger 
-                                value="background" 
+                            {data.background && <TabsTrigger
+                                value="background"
                                 className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 data-[state=active]:shadow-sm"
                             >
                                 Background
                             </TabsTrigger>}
-                            {data.motivation && <TabsTrigger 
-                                value="motivation" 
+                            {data.motivation && <TabsTrigger
+                                value="motivation"
                                 className="data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700 data-[state=active]:shadow-sm"
                             >
                                 Motivation
