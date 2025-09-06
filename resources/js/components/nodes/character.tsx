@@ -2,7 +2,8 @@ import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { PersonStanding, Mars, Venus, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CustomNodeToolbar from '../node-toolbar';
 
 type CharacterData = {
     id: string;
@@ -31,13 +32,18 @@ export const GenderOptions: GenderData[] = [
 
 function CharacterNode({id, data, isConnectable, selected}: {id: string, data: CharacterData, isConnectable: boolean, selected?: boolean}){
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
+    const setCurrentAction = useInspectorStore((state) => state.setCurrentAction);
     const [show, setShow] = useState(false);
 
     return (<>
+        <CustomNodeToolbar id={id} />
         <div
             className={`relative max-w-2xl rounded-4xl bg-purple-50 shadow-sm border p-3 transition-colors
             ${ selected ? "border-purple-700 shadow-purple-200 ring-1 ring-purple-200" : "border-purple-400 hoverable:border-purple-500" }`}
-            onClick={() => setSelectedId(id)}
+            onClick={() => {
+                setSelectedId(id);
+                setCurrentAction("view");
+            }}
         >
             <div className={`absolute top-3 left-3 text-slate-800`}>
                 <button onClick={(e) => {

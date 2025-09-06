@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { ScrollText, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
-
+import CustomNodeToolbar from '../node-toolbar';
 
 type PointData = {
     id: string;
@@ -27,6 +27,7 @@ function SceneNode({id, data, isConnectable, selected}: {id: string, data: Scene
     const [show, setShow] = useState(false);
 
     return (<>
+        <CustomNodeToolbar id={id} />
         <div
             className={`relative bg-slate-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-slate-700 shadow-slate-200 ring-1 ring-slate-200" : "border-slate-400 hoverable:border-slate-500" }`}
             onClick={() => setSelectedId(id)}

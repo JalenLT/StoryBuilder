@@ -2,6 +2,7 @@ import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { Trees, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
+import CustomNodeToolbar from '../node-toolbar';
 
 type SettingData = {
     id: string,
@@ -62,6 +63,7 @@ function SettingNode({
 
     return (
         <>
+        <CustomNodeToolbar id={id} />
         <div
             className={`relative max-w-2xl rounded-4xl border p-3 shadow-sm transition-colors bg-green-50
             ${selected ? 'border-green-700 shadow-green-200 ring-1 ring-green-200' : 'border-green-400 hoverable:border-green-500'}`}

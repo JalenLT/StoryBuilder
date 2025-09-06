@@ -39,7 +39,8 @@ type InspectorProps = {
 
 export default function Inspector({ nodes, updateNodeData }: InspectorProps){
     const selectedId = useInspectorStore((state) => state.selectedId);
-    const node = useMemo(() => nodes.find((node) => node.id === selectedId), [selectedId, nodes]);
+    const currentAction = useInspectorStore((state) => state.currentAction);
+    const node = useMemo(() => nodes.find((node) => node.id === selectedId && currentAction === "edit"), [selectedId, nodes, currentAction]);
 
     if (!node) return <Panel position='bottom-right'>No node selected</Panel>;
 
@@ -188,8 +189,8 @@ export default function Inspector({ nodes, updateNodeData }: InspectorProps){
                                                         });
                                                         }}
                                                     />
-                                                    <Button 
-                                                        size="icon" 
+                                                    <Button
+                                                        size="icon"
                                                         className="border border-red-500 bg-white hoverable:bg-red-50"
                                                         onClick={() => {
                                                             const nextPoints = value.points!.filter((p) => p.id !== point.id);
@@ -202,8 +203,8 @@ export default function Inspector({ nodes, updateNodeData }: InspectorProps){
                                                     </Button>
                                                 </div>
                                             ))}
-                                            <Button 
-                                                size="icon" 
+                                            <Button
+                                                size="icon"
                                                 className="border border-green-500 bg-white hoverable:bg-green-50 float-right"
                                                 onClick={() => {
                                                     const lastPointId = value.points?.[value.points.length - 1]?.id;

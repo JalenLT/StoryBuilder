@@ -2,6 +2,7 @@ import { memo, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { Shrub, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
+import CustomNodeToolbar from '../node-toolbar';
 
 type FeatureData = {
     id: string;
@@ -16,6 +17,7 @@ function FeatureNode({id, data, isConnectable, selected}: {id: string, data: Fea
     const [show, setShow] = useState(false);
 
     return (<>
+        <CustomNodeToolbar id={id} />
         <div
             className={`relative bg-lime-50 rounded-4xl border p-3 shadow-sm transition-colors max-w-2xl ${ selected ? "border-lime-700 shadow-lime-200 ring-1 ring-lime-200" : "border-lime-400 hoverable:border-lime-500" }`}
             onClick={() => setSelectedId(id)}

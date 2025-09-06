@@ -256,6 +256,7 @@ export default function BoardView(){
     const onPaneClick = useCallback(() => {
         setPaneMenu(null);
         setSelectedId(undefined);
+        setCurrentAction(undefined);
     }, []);
     const handleCloseMenu = () => {
         setPaneMenu(null);
@@ -266,6 +267,7 @@ export default function BoardView(){
      *** INSPECTOR ***
      *****************/
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
+    const setCurrentAction = useInspectorStore((state) => state.setCurrentAction);
 
     /********************************
      *** DISABLE RIGHT CLICK MENU ***
