@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Point;
+use App\Models\Scene;
 use Illuminate\Database\Eloquent\Model;
 
-class BlockPoint extends Model
+class ScenePoint extends Model
 {
     protected $fillable = [
-        'block_id',
+        'scene_id',
         'point_id',
         'index'
     ];
 
-    public function block(){
-        return $this->belongsTo(Block::class);
+    public function scene(){
+        return $this->belongsTo(Scene::class);
     }
 
     public function point(){

@@ -3,11 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Point;
+use App\Models\Scene;
 use App\Models\Story;
+use App\Models\Setting;
+use App\Models\Character;
+use App\Models\Attachment;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -55,8 +60,8 @@ class User extends Authenticatable
         return $this->hasMany(Attachment::class);
     }
 
-    public function blocks(){
-        return $this->hasMany(Block::class);
+    public function scenes(){
+        return $this->hasMany(Scene::class);
     }
 
     public function points(){

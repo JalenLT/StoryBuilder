@@ -8,33 +8,46 @@ import {
 } from "@/components/ui/tooltip";
 import { useInspectorStore } from './inspector/store';
 import { CopyPlus, SquarePen, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function CustomNodeToolbar({id}: {id: string}){
     const { getNodes, setNodes, setEdges } = useReactFlow();
     const setCurrentAction = useInspectorStore((state) => state.setCurrentAction);
 
     const deleteNode = (id: string) => {
-        setNodes((nodesSnapshot) => nodesSnapshot.filter((node) => node.id !== id));
-        setEdges((edgesSnapshot) => edgesSnapshot.filter((edge) => edge.source !== id && edge.target !== id));
+        try {
+            setNodes((nodesSnapshot) => nodesSnapshot.filter((node) => node.id !== id));
+            setEdges((edgesSnapshot) => edgesSnapshot.filter((edge) => edge.source !== id && edge.target !== id));
+
+            toast.success("Node deleted");
+        } catch (error: unknown) {
+            toast.error(error as string);
+        }
     };
 
     const duplicateNode = (id: string) => {
-        const newNodeId = Math.floor(Math.random() * 100000).toString();
-        const sourceNode = getNodes().find((node) => node.id === id);
-        if (!sourceNode) {
-            // THROW ERROR AND SHOW ALERT
-            return;
+        try {
+            const newNodeId = Math.floor(Math.random() * 100000).toString();
+            const sourceNode = getNodes().find((node) => node.id === id);
+            if (!sourceNode) {
+                // THROW ERROR AND SHOW ALERT
+                return;
+            }
+            const newNode: any = {
+                id: 'character:' + Math.floor(Math.random() * 100000).toString(),
+                data: {
+                    ...sourceNode?.data,
+                    id: newNodeId,
+                },
+                type: sourceNode?.type,
+                position: { x: sourceNode?.position.x + 100, y: sourceNode?.position.y + 100 },
+            }
+            setNodes((oldNodes) => oldNodes.concat(newNode))
+
+            toast.success("Node duplicated");
+        } catch (error: unknown) {
+            toast.error(error as string);
         }
-        const newNode: any = {
-            id: 'character:' + Math.floor(Math.random() * 100000).toString(),
-            data: {
-                ...sourceNode?.data,
-                id: newNodeId,
-            },
-            type: sourceNode?.type,
-            position: { x: sourceNode?.position.x + 100, y: sourceNode?.position.y + 100 },
-        }
-        setNodes((oldNodes) => oldNodes.concat(newNode))
     }
 
     return (

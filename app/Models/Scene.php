@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\Story;
 use Illuminate\Database\Eloquent\Model;
 
-class Block extends Model
+class Scene extends Model
 {
     protected $fillable = [
         'title',
         'creator_id',
         'story_id',
-        'setting_id',
     ];
 
     public function creator()
@@ -23,12 +24,14 @@ class Block extends Model
         return $this->belongsTo(Story::class, 'story_id');
     }
 
-    public function setting(){
-        return $this->hasOne(Setting::class, 'id', 'setting_id');
-    }
+    public function points(){
+        $scenePoints = ScenePoint::where('scene_id', $this->id)->orderBy('index')->get();
 
-    public function characterInvolvements()
-    {
-        return $this->morphMany(CharacterInvolvement::class, 'involvable');
+        $points = [];
+        foreach($scenePoints as $scenePoint){
+            $points[] = $scenePoint->point;
+        }
+
+        return $points;
     }
 }

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('blocks', function (Blueprint $table) {
+        Schema::create('scenes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('story_id')->constrained('stories')->cascadeOnDelete();
-            $table->foreignId('setting_id')->contrained('settings')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('blocks');
+        Schema::dropIfExists('scenes');
     }
 };

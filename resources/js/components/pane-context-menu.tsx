@@ -12,6 +12,7 @@ import {
 import { useCallback } from "react";
 import { useReactFlow, useViewport } from "@xyflow/react";
 import { CreateNode } from "./create-node-card";
+import { toast } from "sonner";
 
 const NODE_WIDTH = 672 / 2; // Width of the node (2xl)
 
@@ -20,177 +21,197 @@ export default function PaneContextMenu({x, y, onClose, createNode}: {x: number,
     const { zoom } = useViewport();
 
     const onCreateCharacter = useCallback(() => {
-        const nodePosition = screenToFlowPosition({
-            x: x,
-            y: y,
-        });
-        const id = Math.floor(Math.random() * 100000).toString();
-        const newNode: any = {
-            id: `character:${id}`,
-            position: {
-                x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
-                y: nodePosition.y
-            },
-            data: {
-                id,
-                first_name: {
-                    value: '',
-                    type: 'string'
+        try {
+            const nodePosition = screenToFlowPosition({
+                x: x,
+                y: y,
+            });
+            const id = Math.floor(Math.random() * 100000).toString();
+            const newNode: any = {
+                id: `character:${id}`,
+                position: {
+                    x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
+                    y: nodePosition.y
                 },
-                last_name: {
-                    value: '',
-                    type: 'string'
+                data: {
+                    id,
+                    first_name: {
+                        value: '',
+                        type: 'string'
+                    },
+                    last_name: {
+                        value: '',
+                        type: 'string'
+                    },
+                    alias: {
+                        value: "",
+                        type: 'string'
+                    },
+                    age: {
+                        value: null,
+                        type: 'integer'
+                    },
+                    gender: {
+                        value: '',
+                        type: 'select',
+                        options: 'gender'
+                    },
+                    description: {
+                        value: "",
+                        type: 'text'
+                    },
+                    background: {
+                        value: "",
+                        type: 'text'
+                    },
+                    motivation: {
+                        value: "",
+                        type: 'text'
+                    },
+                    story_id: 0,
+                    creator_id: 0,
+                    setting_id: 0
                 },
-                alias: {
-                    value: "",
-                    type: 'string'
-                },
-                age: {
-                    value: null,
-                    type: 'integer'
-                },
-                gender: {
-                    value: '',
-                    type: 'select',
-                    options: 'gender'
-                },
-                description: {
-                    value: "",
-                    type: 'text'
-                },
-                background: {
-                    value: "",
-                    type: 'text'
-                },
-                motivation: {
-                    value: "",
-                    type: 'text'
-                },
-                story_id: 0,
-                creator_id: 0,
-                setting_id: 0
-            },
-            origin: [0.5, 0.0],
-            type: 'character',
-        };
-        createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
-        onClose();
+                origin: [0.5, 0.0],
+                type: 'character',
+            };
+            createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
+            onClose();
+            toast.success("A new character has been created");
+        } catch (error: unknown) {
+            toast.error(error as string);
+        }
     }, []);
     const onCreateFeature = useCallback(() => {
-        const nodePosition = screenToFlowPosition({
-            x: x,
-            y: y,
-        });
-        const id = Math.floor(Math.random() * 100000).toString();
-        const newNode: any = {
-            id: `feature:${id}`,
-            position: {
-                x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
-                y: nodePosition.y
-            },
-            data: {
-                id,
-                name: {
-                    value: "",
-                    type: 'string'
+        try {
+            const nodePosition = screenToFlowPosition({
+                x: x,
+                y: y,
+            });
+            const id = Math.floor(Math.random() * 100000).toString();
+            const newNode: any = {
+                id: `feature:${id}`,
+                position: {
+                    x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
+                    y: nodePosition.y
                 },
-                type: {
-                    value: '',
-                    type: 'string'
+                data: {
+                    id,
+                    name: {
+                        value: "",
+                        type: 'string'
+                    },
+                    type: {
+                        value: '',
+                        type: 'string'
+                    },
+                    description: {
+                        value: "",
+                        type: 'text'
+                    },
+                    story_id: {
+                        value: 0,
+                        type: 'integer'
+                    }
                 },
-                description: {
-                    value: "",
-                    type: 'text'
-                },
-                story_id: {
-                    value: 0,
-                    type: 'integer'
-                }
-            },
-            origin: [0.5, 0.0],
-            type: 'feature',
-        };
-        createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
-        onClose();
+                origin: [0.5, 0.0],
+                type: 'feature',
+            };
+            createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
+            onClose();
+            toast.success("A new feature has been created");
+        } catch (error: unknown) {
+            toast.error(error as string);
+        }
     }, []);
     const onCreateSetting = useCallback(() => {
-        const nodePosition = screenToFlowPosition({
-            x: x,
-            y: y,
-        });
-        const id = Math.floor(Math.random() * 100000).toString();
-        const newNode: any = {
-            id: `setting:${id}`,
-            position: {
-                x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
-                y: nodePosition.y
-            },
-            data: {
-                id,
-                name: {
-                    value: "",
-                    type: 'string'
+        try {
+            const nodePosition = screenToFlowPosition({
+                x: x,
+                y: y,
+            });
+            const id = Math.floor(Math.random() * 100000).toString();
+            const newNode: any = {
+                id: `setting:${id}`,
+                position: {
+                    x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
+                    y: nodePosition.y
                 },
-                description: {
-                    value: ``,
-                    type: 'text'
+                data: {
+                    id,
+                    name: {
+                        value: "",
+                        type: 'string'
+                    },
+                    description: {
+                        value: ``,
+                        type: 'text'
+                    },
+                    world: {
+                        value: '',
+                        type: 'string'
+                    },
+                    era: {
+                        value: '',
+                        type: 'select',
+                        options: 'era'
+                    },
+                    climate: {
+                        value: '',
+                        type: 'select',
+                        options: 'climate'
+                    },
+                    story_id: {
+                        value: 0,
+                        type: 'integer'
+                    }
                 },
-                world: {
-                    value: '',
-                    type: 'string'
-                },
-                era: {
-                    value: '',
-                    type: 'select',
-                    options: 'era'
-                },
-                climate: {
-                    value: '',
-                    type: 'select',
-                    options: 'climate'
-                },
-                story_id: {
-                    value: 0,
-                    type: 'integer'
-                }
-            },
-            origin: [0.5, 0.0],
-            type: 'setting',
-        };
-        createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
-        onClose();
+                origin: [0.5, 0.0],
+                type: 'setting',
+            };
+            createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
+            onClose();
+            toast.success("A new setting has been created");
+        } catch (error: unknown) {
+            toast.error(error as string);
+        }
     }, []);
     const onCreateScene = useCallback(() => {
-        const nodePosition = screenToFlowPosition({
-            x: x,
-            y: y,
-        });
-        const id = Math.floor(Math.random() * 100000).toString();
-        const newNode: any = {
-            id: `scene:${id}`,
-            position: {
-                x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
-                y: nodePosition.y
-            },
-            data: {
-                id,
-                title: {
-                    value: "",
-                    type: 'string'
+        try {
+            const nodePosition = screenToFlowPosition({
+                x: x,
+                y: y,
+            });
+            const id = Math.floor(Math.random() * 100000).toString();
+            const newNode: any = {
+                id: `scene:${id}`,
+                position: {
+                    x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
+                    y: nodePosition.y
                 },
-                points: {
-                    points: [],
-                    type: 'array'
+                data: {
+                    id,
+                    title: {
+                        value: "",
+                        type: 'string'
+                    },
+                    points: {
+                        points: [],
+                        type: 'array'
+                    },
+                    creator_id: 0,
+                    story_id: 0,
+                    setting_id: 0,
                 },
-                creator_id: 0,
-                story_id: 0,
-                setting_id: 0,
-            },
-            origin: [0.5, 0.0],
-            type: 'scene',
-        };
-        createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
-        onClose();
+                origin: [0.5, 0.0],
+                type: 'scene',
+            };
+            createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
+            onClose();
+            toast.success("A new scene has been created");
+        } catch (error: unknown) {
+            toast.error(error as string);
+        }
     }, []);
     return (
         <>

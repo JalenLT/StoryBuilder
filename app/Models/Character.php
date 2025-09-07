@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\Story;
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Model;
 
 class Character extends Model
@@ -30,10 +33,5 @@ class Character extends Model
 
     public function creator(){
         return $this->belongsTo(User::class, 'creator_id');
-    }
-
-    public function involvements()
-    {
-        return $this->hasMany(CharacterInvolvement::class);
     }
 }

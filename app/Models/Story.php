@@ -2,6 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Tag;
+use App\Models\Edge;
+use App\Models\Node;
+use App\Models\User;
+use App\Models\Genre;
+use App\Models\Feature;
+use App\Models\Setting;
+use App\Models\Character;
 use Illuminate\Database\Eloquent\Model;
 
 class Story extends Model
@@ -11,6 +19,14 @@ class Story extends Model
         'description',
         'creator_id'
     ];
+
+    public function nodes(){
+        return $this->hasMany(Node::class, 'story_id');
+    }
+
+    public function edges(){
+        return $this->hasMany(Edge::class, 'story_id');
+    }
 
     public function creator()
     {
@@ -23,10 +39,6 @@ class Story extends Model
 
     public function tags(){
         return $this->belongsToMany(Tag::class, 'story_tags', 'story_id', 'tag_id');
-    }
-
-    public function blocks(){
-        return $this->hasMany(Block::class, 'story_id');
     }
 
     public function characters(){

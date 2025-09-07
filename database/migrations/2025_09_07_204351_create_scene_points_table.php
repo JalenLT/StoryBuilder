@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('character_involvements', function (Blueprint $table) {
+        Schema::create('scene_points', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('character_id')->constrained('characters')->cascadeOnDelete();
-            $table->morphs('involvable');
+            $table->foreignId('scene_id')->constrained('scenes')->cascadeOnDelete();
+            $table->foreignId('point_id')->constrained('points')->cascadeOnDelete();
+            $table->integer('index');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('character_involvements');
+        Schema::dropIfExists('scene_points');
     }
 };

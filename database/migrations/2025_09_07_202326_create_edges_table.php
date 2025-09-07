@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('character_relationships', function (Blueprint $table) {
+        Schema::create('edges', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('character_a_id')->constrained('characters')->cascadeOnDelete();
-            $table->foreignId('character_b_id')->constrained('characters')->cascadeOnDelete();
+            $table->foreignId('source')->constrained('nodes')->cascadeOnDelete();
+            $table->foreignId('target')->constrained('nodes')->cascadeOnDelete();
             $table->string('type');
-            $table->text('notes');
+            $table->string('label')->nullable();
+            $table->foreignId('story_id')->constrained('stories')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('character_relationships');
+        Schema::dropIfExists('edges');
     }
 };

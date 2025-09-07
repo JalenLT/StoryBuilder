@@ -15,6 +15,8 @@ import PaneContextMenu from '@/components/pane-context-menu';
 
 import { SmartEdge } from '@/components/smart-edge';
 
+import { Toaster } from '@/components/ui/sonner';
+
 const nodeTypes = {
     story: StoryNode,
     feature: FeatureNode,
@@ -319,6 +321,7 @@ export default function BoardView(){
                 </ReactFlow>
                 {paneMenu && <PaneContextMenu x={paneMenu.x} y={paneMenu.y} onClose={handleCloseMenu} createNode={setNodes} />}
             </ReactFlowProvider>
+            <Toaster richColors position='top-center' />
         </div>
     );
 }

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\Block;
 use App\Models\Feature;
 use App\Models\Character;
 use Illuminate\Database\Eloquent\Model;
@@ -19,10 +18,6 @@ class Setting extends Model
         'creator_id',
         'story_id'
     ];
-
-    public function blocks(){
-        return $this->belongsToMany(Block::class);
-    }
 
     public function features(){
         return $this->belongsToMany(Feature::class, 'setting_features', 'setting_id', 'feature_id');

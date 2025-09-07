@@ -14,9 +14,4 @@ class Point extends Model
     public function creator(){
         return $this->belongsTo(User::class, 'creator_id');
     }
-
-    public function characterInvolvements()
-    {
-        return $this->morphMany(CharacterInvolvement::class, 'involvable');
-    }
 }
