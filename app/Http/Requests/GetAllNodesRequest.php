@@ -2,19 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Block;
+use App\Models\Story;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBlockRequest extends FormRequest
+class GetAllNodesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $block = Block::find($this->input('id'));
-
-        return $block && $this->user()->can('update', $block);
+        return $this->user()->can('view', Story::class);
     }
 
     /**
@@ -25,9 +23,7 @@ class UpdateBlockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:blocks,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'setting_id' => ['required', 'integer', 'exists:settings,id'],
+            'story_id' => ['required', 'integer', 'exists:stories,id'],
         ];
     }
 }

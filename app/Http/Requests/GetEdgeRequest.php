@@ -5,16 +5,14 @@ namespace App\Http\Requests;
 use App\Models\Story;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetStoryBlocksRequest extends FormRequest
+class GetEdgeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $story = Story::find($this->input('id'));
-
-        return $story && $this->user()->can('view', $story);
+        return $this->user()->can('view', Story::class);
     }
 
     /**
@@ -25,7 +23,7 @@ class GetStoryBlocksRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:stories,id'],
+            'id' => ['required', 'integer', 'exists:edges,id'],
         ];
     }
 }

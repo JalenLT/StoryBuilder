@@ -2,18 +2,19 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Block;
+use App\Models\Story;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetBlockRequest extends FormRequest
+class GetStoryScenesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        $block = Block::find($this->input('id'));
-        return $block && $this->user()->can('view', $block);
+        $story = Story::find($this->input('id'));
+
+        return $story && $this->user()->can('view', $story);
     }
 
     /**
@@ -24,7 +25,7 @@ class GetBlockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:blocks,id'],
+            'id' => ['required', 'integer', 'exists:stories,id'],
         ];
     }
 }

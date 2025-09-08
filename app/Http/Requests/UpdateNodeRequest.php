@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Block;
 use App\Models\Story;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBlockRequest extends FormRequest
+class UpdateNodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +14,7 @@ class StoreBlockRequest extends FormRequest
     {
         $story = Story::find($this->input('story_id'));
 
-        return $story && $this->user()->can('create', [Block::class, $story]);
+        return $story && $this->user()->can('update', $story);
     }
 
     /**
@@ -26,9 +25,10 @@ class StoreBlockRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['required', 'integer', 'exists:nodes,id'],
+            'position' => ['required', 'array'],
+            'type' => ['required', 'string', 'max:255'],
             'story_id' => ['required', 'integer', 'exists:stories,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'setting_id' => ['required', 'integer', 'exists:settings,id'],
         ];
     }
 }

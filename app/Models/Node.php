@@ -21,4 +21,24 @@ class Node extends Model
     {
         return $this->belongsTo(Story::class);
     }
+
+    public function character()
+    {
+        return $this->hasOne(Character::class);
+    }
+
+    public function setting()
+    {
+        return $this->hasOne(Setting::class);
+    }
+
+    public function feature()
+    {
+        return $this->hasOne(Feature::class);
+    }
+
+    public function scene()
+    {
+        return $this->hasOne(Scene::class);
+    }
 }

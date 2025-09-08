@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\BlockController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\EdgeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\SceneController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\FeatureController;
+use App\Http\Controllers\NodeController;
 use App\Http\Controllers\SettingController;
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
@@ -54,20 +57,34 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::post('update', 'update')->name('update');
     });
 
-    Route::prefix('blocks')->name('blocks.')->controller(BlockController::class)->group(function () {
+    Route::prefix('scenes')->name('scenes.')->controller(SceneController::class)->group(function () {
         Route::get('{id}', 'get')->name('get');
         Route::get('get-all-per-story/{id}', 'getAllPerStory')->name('get-all-per-story');
         Route::post('store', 'store')->name('store');
         Route::post('update', 'update')->name('update');
-        Route::post('store-block-connection', 'storeBlockConnection')->name('store-block-connection');
     });
 
-    Route::prefix('characters')->name('characters.')->controller(BlockController::class)->group(function () {
+    Route::prefix('characters')->name('characters.')->controller(CharacterController::class)->group(function () {
         Route::get('{id}', 'get')->name('get');
         Route::get('get-all-per-story/{id}', 'getAllPerStory')->name('get-all-per-story');
         Route::post('store', 'store')->name('store');
         Route::post('update', 'update')->name('update');
         Route::post('store-character-relationship', 'storeCharacterRelationship')->name('store-character-relationship');
         Route::post('store-character-involvement', 'storeCharacterInvolvement')->name('store-character-involvement');
+    });
+
+    Route::prefix('nodes')->name('nodes.')->controller(NodeController::class)->group(function () {
+        Route::get('{id}', 'get')->name('get');
+        Route::get('get-all/{story_id}', 'getAll')->name('get-all');
+        Route::post('store', 'store')->name('store');
+        Route::post('update', 'update')->name('update');
+        Route::post('delete', 'delete')->name('delete');
+    });
+
+    Route::prefix('edges')->name('edges.')->controller(EdgeController::class)->group(function () {
+        Route::get('{id}', 'get')->name('get');
+        Route::post('store', 'store')->name('store');
+        Route::post('update', 'update')->name('update');
+        Route::post('delete', 'delete')->name('delete');
     });
 });

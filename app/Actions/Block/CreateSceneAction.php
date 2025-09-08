@@ -3,15 +3,14 @@
 namespace App\Actions\Block;
 
 use App\Models\User;
-use App\Models\Block;
+use App\Models\Scene;
 
-class CreateBlockAction{
+class CreateSceneAction{
     public function __invoke(array $data, User $user){
-        return Block::create([
+        return Scene::create([
             'title' => $data['title'],
             'creator_id' => $user->id,
             'story_id' => $data['story_id'],
-            'setting_id' => $data['setting_id']
         ]);
     }
 }

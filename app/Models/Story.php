@@ -7,6 +7,7 @@ use App\Models\Edge;
 use App\Models\Node;
 use App\Models\User;
 use App\Models\Genre;
+use App\Models\Scene;
 use App\Models\Feature;
 use App\Models\Setting;
 use App\Models\Character;
@@ -26,6 +27,10 @@ class Story extends Model
 
     public function edges(){
         return $this->hasMany(Edge::class, 'story_id');
+    }
+
+    public function scenes(){
+        return $this->hasMany(Scene::class, 'story_id');
     }
 
     public function creator()
