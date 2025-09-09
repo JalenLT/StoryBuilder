@@ -23,7 +23,8 @@ return new class extends Migration
             $table->text('motivation');
             $table->foreignId('story_id')->constrained('stories')->cascadeOnDelete();
             $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('setting_id')->constrained('settings')->cascadeOnDelete();
+            $table->foreignId('setting_id')->nullable()->constrained('settings')->nullOnDelete();
+            $table->foreignId('node_id')->constrained('nodes')->cascadeOnDelete();
             $table->timestamps();
         });
     }

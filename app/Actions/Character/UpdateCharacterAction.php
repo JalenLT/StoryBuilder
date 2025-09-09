@@ -20,7 +20,7 @@ class UpdateCharacterAction{
             $character->age = $data['age'];
             $character->gender = $data['gender'];
             $character->motivation = $data['motivation'];
-            $character->setting_id = $data['setting_id'];
+            if(isset($data["setting_id"])) $character->setting_id = $data['setting_id'];
             $character->save();
             return $character;
         });

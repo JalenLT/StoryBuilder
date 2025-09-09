@@ -16,8 +16,13 @@ class Setting extends Model
         'era',
         'climate',
         'creator_id',
-        'story_id'
+        'story_id',
+        'node_id'
     ];
+
+    public function node(){
+        return $this->belongsTo(Node::class, 'node_id');
+    }
 
     public function features(){
         return $this->belongsToMany(Feature::class, 'setting_features', 'setting_id', 'feature_id');

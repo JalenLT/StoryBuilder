@@ -1,11 +1,7 @@
-import { X, Plus, PersonStanding, Shrub, Trees, ScrollText } from "lucide-react";
+import { X, PersonStanding, Shrub, Trees, ScrollText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -13,14 +9,50 @@ import { useCallback } from "react";
 import { useReactFlow, useViewport } from "@xyflow/react";
 import { CreateNode } from "./create-node-card";
 import { toast } from "sonner";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import apiClient from "@/api/axios";
+import axios from "axios";
 
 const NODE_WIDTH = 672 / 2; // Width of the node (2xl)
+
+function useCreateNode(storyId: number){
+    const qc = useQueryClient();
+
+    return useMutation({
+        mutationFn: async ({position, type}: {position: {x: number, y: number}, type: string}) => {
+            const response = await apiClient.post(import.meta.env.VITE_APP_URL + '/api/v1/nodes/store', {
+                position,
+                type,
+                story_id: storyId
+            });
+
+            return response.data;
+        },
+        onSuccess: (newNode) => {
+            toast.success(newNode.message);
+
+            qc.invalidateQueries({queryKey: ['story', storyId, 'nodes']});
+        },
+        onError: (error) => {
+            let errorMessage = 'An unexpected error occurred.';
+            if (axios.isAxiosError(error) && error.response) {
+                errorMessage = error.response.data.message || `Request failed...`;
+            }
+
+            toast.error(errorMessage);
+        },
+    });
+}
 
 export default function PaneContextMenu({x, y, onClose, createNode}: {x: number, y: number, onClose: () => void, createNode: (nodes: any) => void}) {
     const { screenToFlowPosition } = useReactFlow();
     const { zoom } = useViewport();
 
-    const onCreateCharacter = useCallback(() => {
+    const baseUrl = import.meta.env.VITE_APP_URL;
+    const storyId = 1;
+    const createNodeMutation = useCreateNode(storyId);
+
+    const onCreateCharacter = useCallback(async () => {
         try {
             const nodePosition = screenToFlowPosition({
                 x: x,
@@ -75,14 +107,23 @@ export default function PaneContextMenu({x, y, onClose, createNode}: {x: number,
                 origin: [0.5, 0.0],
                 type: 'character',
             };
+
+            await createNodeMutation.mutateAsync({
+                position: {
+                    x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
+                    y: nodePosition.y
+                },
+                type: 'character'
+            });
+
             createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
+
             onClose();
-            toast.success("A new character has been created");
         } catch (error: unknown) {
-            toast.error(error as string);
+            onClose();
         }
-    }, []);
-    const onCreateFeature = useCallback(() => {
+    }, [screenToFlowPosition, x, y, zoom, createNode, createNodeMutation, onClose]);
+    const onCreateFeature = useCallback(async () => {
         try {
             const nodePosition = screenToFlowPosition({
                 x: x,
@@ -117,14 +158,22 @@ export default function PaneContextMenu({x, y, onClose, createNode}: {x: number,
                 origin: [0.5, 0.0],
                 type: 'feature',
             };
+
+            await createNodeMutation.mutateAsync({
+                position: {
+                    x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
+                    y: nodePosition.y
+                },
+                type: 'feature'
+            });
+
             createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
             onClose();
-            toast.success("A new feature has been created");
         } catch (error: unknown) {
-            toast.error(error as string);
+            onClose();
         }
     }, []);
-    const onCreateSetting = useCallback(() => {
+    const onCreateSetting = useCallback(async () => {
         try {
             const nodePosition = screenToFlowPosition({
                 x: x,
@@ -169,14 +218,22 @@ export default function PaneContextMenu({x, y, onClose, createNode}: {x: number,
                 origin: [0.5, 0.0],
                 type: 'setting',
             };
+
+            await createNodeMutation.mutateAsync({
+                position: {
+                    x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
+                    y: nodePosition.y
+                },
+                type: 'setting'
+            });
+
             createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
             onClose();
-            toast.success("A new setting has been created");
         } catch (error: unknown) {
-            toast.error(error as string);
+            onClose();
         }
     }, []);
-    const onCreateScene = useCallback(() => {
+    const onCreateScene = useCallback(async () => {
         try {
             const nodePosition = screenToFlowPosition({
                 x: x,
@@ -206,11 +263,19 @@ export default function PaneContextMenu({x, y, onClose, createNode}: {x: number,
                 origin: [0.5, 0.0],
                 type: 'scene',
             };
+
+            await createNodeMutation.mutateAsync({
+                position: {
+                    x: nodePosition.x + (NODE_WIDTH / 2) / zoom,
+                    y: nodePosition.y
+                },
+                type: 'scene'
+            });
+
             createNode((oldNodes: Node[]) => oldNodes.concat(newNode));
             onClose();
-            toast.success("A new scene has been created");
         } catch (error: unknown) {
-            toast.error(error as string);
+            onClose();
         }
     }, []);
     return (

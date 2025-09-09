@@ -26,15 +26,15 @@ class UpdateCharacterRequest extends FormRequest
     {
         return [
             'id' => ['required', 'integer', 'exists:characters,id'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'first_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
             'alias' => ['nullable', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
             'background' => ['nullable', 'string'],
-            'age' => ['required', 'integer'],
-            'gender' => ['required', 'string', 'max:255'],
+            'age' => ['nullable', 'integer'],
+            'gender' => ['nullable', 'string', 'max:255'],
             'motivation' => ['nullable', 'string'],
-            'story_id' => ['required', 'integer', 'exists:stories,id'],
+            'story_id' => ['nullable', 'integer', 'exists:stories,id'],
             'setting_id' => ['nullable', 'integer', 'exists:settings,id'],
         ];
     }

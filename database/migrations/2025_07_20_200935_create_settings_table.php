@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('climate')->nullable();
             $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('story_id')->constrained('stories')->cascadeOnDelete();
+            $table->foreignId('node_id')->constrained('nodes')->cascadeOnDelete();
             $table->timestamps();
         });
     }

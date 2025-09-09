@@ -12,7 +12,12 @@ class Scene extends Model
         'title',
         'creator_id',
         'story_id',
+        'node_id'
     ];
+
+    public function node(){
+        return $this->belongsTo(Node::class, 'node_id');
+    }
 
     public function creator()
     {

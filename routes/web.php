@@ -1,14 +1,35 @@
 <?php
 
+use App\Models\User;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Permission;
 
 Route::get('/', function () {
     return Inertia::render('board_view');
 })->name('home');
 
+Route::get('/create-permissions', function() {
+    $permissions = [
+        'stories.create',
+        'stories.update',
+        'characters.update'
+    ];
+
+    foreach ($permissions as $permission) {
+        $permission = Permission::firstOrCreate(['name' => $permission]);
+        $writer = Role::firstOrCreate(['name' => 'writer']);
+        $writer->permissions()->syncWithoutDetaching($permission->id);
+    }
+
+    $user = User::find(1);
+    $user->assignRole('writer');
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
+        // $token = User::find(auth()->id())->createToken('storybuilder')->plainTextToken;
         return Inertia::render('dashboard');
     })->name('dashboard');
 });

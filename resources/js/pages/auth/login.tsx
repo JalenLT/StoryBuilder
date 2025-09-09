@@ -10,6 +10,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
+import { ensureCsrf, getXsrfToken } from '@/lib/utils';
+
 type LoginForm = {
     email: string;
     password: string;
@@ -28,9 +30,17 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         remember: false,
     });
 
-    const submit: FormEventHandler = (e) => {
+    const submit: FormEventHandler = async (e) => {
         e.preventDefault();
+
+        await ensureCsrf();
+        const xsrf = getXsrfToken();
+
         post(route('login'), {
+            headers: {
+                'Accept': 'application/json',
+                ...(xsrf ? { 'X-XSRF-TOKEN': xsrf } : {}),
+            },
             onFinish: () => reset('password'),
         });
     };

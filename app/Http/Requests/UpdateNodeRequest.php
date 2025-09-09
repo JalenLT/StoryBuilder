@@ -27,7 +27,6 @@ class UpdateNodeRequest extends FormRequest
         return [
             'id' => ['required', 'integer', 'exists:nodes,id'],
             'position' => ['required', 'array'],
-            'type' => ['required', 'string', 'max:255'],
             'story_id' => ['required', 'integer', 'exists:stories,id'],
         ];
     }

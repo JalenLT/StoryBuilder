@@ -24,6 +24,8 @@ class CreateNodeAction{
                     'age' => -1,
                     'gender' => '',
                     'motivation' => '',
+                    'story_id' => $data['story_id'],
+                    'creator_id' => $user->id
                 ]);
                 break;
             case "setting":
@@ -33,6 +35,7 @@ class CreateNodeAction{
                     'world' => '',
                     'era' => '',
                     'climate' => '',
+                    'story_id' => $data['story_id'],
                     'creator_id' => $user->id,
                 ]);
                 break;
@@ -41,11 +44,13 @@ class CreateNodeAction{
                     'name' => '',
                     'type' => '',
                     'description' => '',
+                    'story_id' => $data['story_id'],
                 ]);
                 break;
             case "scene":
                 $node->scene()->create([
                     'title' => '',
+                    'story_id' => $data['story_id'],
                     'creator_id' => $user->id,
                 ]);
                 break;

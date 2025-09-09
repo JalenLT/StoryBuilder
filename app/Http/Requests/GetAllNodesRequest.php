@@ -12,7 +12,8 @@ class GetAllNodesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('view', Story::class);
+        $story = Story::find($this->route('story_id'));
+        return $this->user()->can('view', $story);
     }
 
     /**
@@ -23,7 +24,7 @@ class GetAllNodesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'story_id' => ['required', 'integer', 'exists:stories,id'],
+            // 'story_id' => ['required', 'integer', 'exists:stories,id'],
         ];
     }
 }

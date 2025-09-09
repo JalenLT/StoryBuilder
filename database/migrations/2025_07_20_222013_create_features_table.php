@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('type');
             $table->text('description');
             $table->foreignId('story_id')->constrained('stories')->cascadeOnDelete();
+            $table->foreignId('node_id')->constrained('nodes')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -1,18 +1,23 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\EdgeController;
+use App\Http\Controllers\NodeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\SceneController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\FeatureController;
-use App\Http\Controllers\NodeController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\CharacterController;
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
+    Route::get('user', function (Request $request) {
+        return $request->user();
+    })->name('user');
+
     Route::prefix('stories')->name('stories.')->controller(StoryController::class)->group(function () {
         Route::post('store', 'store')->name('store');
         Route::post('genres/update', 'updateGenres')->name('genres.update');

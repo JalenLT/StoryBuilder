@@ -21,7 +21,13 @@ class Character extends Model
         'story_id',
         'setting_id',
         'character_id',
+        'creator_id',
+        'node_id'
     ];
+
+    public function node(){
+        return $this->belongsTo(Node::class, 'node_id');
+    }
 
     public function story(){
         return $this->belongsTo(Story::class, 'story_id');
