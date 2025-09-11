@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('features', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('type');
-            $table->text('description');
-            $table->foreignId('story_id')->constrained('stories')->cascadeOnDelete();
-            $table->foreignId('node_id')->constrained('nodes')->cascadeOnDelete();
+            $table->string('name')->nullable();
+            $table->string('type')->nullable();
+            $table->text('description')->nullable();
+            $table->foreignId('story_id')->nullable()->constrained('stories')->cascadeOnDelete();
+            $table->foreignId('node_id')->nullable()->constrained('nodes')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@ import '@xyflow/react/dist/style.css';
 import StoryNode from '@/components/nodes/story';
 import FeatureNode from '@/components/nodes/feature';
 import SettingNode from '@/components/nodes/setting';
-import CharacterNode from '@/components/nodes/character';
+import CharacterNode, { CharacterData } from '@/components/nodes/character';
 import SceneNode from '@/components/nodes/scene';
 
 import PaneContextMenu from '@/components/pane-context-menu';
@@ -356,29 +356,25 @@ export default function BoardView(){
     const updateNodeData = useCallback((id: string, patch: Partial<NodeData>) => {
     setNodes((nodesSnapshot) =>
         nodesSnapshot.map(node => {
-        if (node.id !== id) return node;
+            if (node.id !== id) return node;
 
-        const nextData = { ...node.data, ...patch };
+            const nextData = { ...node.data, ...patch };
 
-        if (node.type === 'character') {
-            const get = (k: keyof typeof nextData) =>
-            // nextData[k] might be undefined: guard and coalesce
-            (nextData[k] as any)?.value ?? '';
+            if (node.type === 'character') {
+                updateCharacterDataMutation.mutate({
+                    id: Number(nextData.id),
+                    first_name: nextData.first_name.value,
+                    last_name: nextData.last_name.value,
+                    alias: nextData.alias.value,
+                    age: nextData.age.value,
+                    gender: nextData.gender.value,
+                    description: nextData.description.value,
+                    background: nextData.background.value,
+                    motivation: nextData.motivation.value,
+                });
+            }
 
-            updateCharacterDataMutation.mutate({
-                id: nextData.id, // or node.data.id if id never changes
-                first_name: get('first_name'),
-                last_name: get('last_name'),
-                alias: get('alias'),
-                age: get('age'),
-                gender: get('gender'),
-                description: get('description'),
-                background: get('background'),
-                motivation: get('motivation'),
-            });
-        }
-
-        return { ...node, data: nextData };
+            return { ...node, data: nextData };
         })
     );
     }, [setNodes, updateCharacterDataMutation]);

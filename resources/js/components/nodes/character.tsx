@@ -5,7 +5,7 @@ import { useInspectorStore } from '../inspector/store';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CustomNodeToolbar from '../node-toolbar';
 
-type CharacterData = {
+export type CharacterData = {
     id: string;
     first_name: { value: string, type: string };
     last_name: { value: string, type: string };
@@ -16,7 +16,6 @@ type CharacterData = {
     gender: { value: string, type: string };
     motivation: { value: string, type: string };
     story_id: BigInteger;
-    creator_id: BigInteger;
     setting_id: BigInteger;
 }
 
