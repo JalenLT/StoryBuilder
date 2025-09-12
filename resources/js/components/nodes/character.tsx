@@ -4,20 +4,7 @@ import { PersonStanding, Mars, Venus, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CustomNodeToolbar from '../node-toolbar';
-
-export type CharacterData = {
-    id: string;
-    first_name: { value: string, type: string };
-    last_name: { value: string, type: string };
-    alias: { value: string, type: string };
-    description: { value: string, type: string };
-    background: { value: string, type: string };
-    age: { value: number, type: string };
-    gender: { value: string, type: string };
-    motivation: { value: string, type: string };
-    story_id: BigInteger;
-    setting_id: BigInteger;
-}
+import { CharacterData } from '@/types';
 
 type GenderData = {
     label: string;
@@ -60,8 +47,8 @@ function CharacterNode({id, data, isConnectable, selected}: {id: string, data: C
                 <span className="text-sm">Character</span>
             </div>
             <div className="text-lg text-center mx-35 flex items-baseline justify-center gap-2">
-                <strong className="text-slate-900">{data.first_name?.value ? data.first_name.value + " " + data.last_name.value : <span className="text-slate-500">--Unknown--</span>}</strong>
-                <sub className="text-slate-700">{data.alias.value}</sub>
+                <strong className="text-slate-900">{data.first_name?.value ? data.first_name.value + " " + data.last_name?.value : <span className="text-slate-500">--Unknown--</span>}</strong>
+                <sub className="text-slate-700">{data.alias?.value}</sub>
                 {data.gender?.value &&
                     (data.gender.value === "Male" ? (
                         <Mars className="text-blue-600 inline-block" />

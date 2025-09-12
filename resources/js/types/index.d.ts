@@ -48,7 +48,21 @@ type PointData = {
         value: string;
         type: string;
     };
-    creator_id: BigInteger;
+    creator_id: number;
+}
+
+type CharacterData = {
+    id: string;
+    first_name: { value: string, type: string };
+    last_name: { value: string, type: string };
+    alias: { value: string, type: string };
+    description: { value: string, type: string };
+    background: { value: string, type: string };
+    age: { value: number, type: string };
+    gender: { value: string, type: string };
+    motivation: { value: string, type: string };
+    story_id: number;
+    setting_id: number;
 }
 
 export type NodeData = {

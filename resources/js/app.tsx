@@ -8,6 +8,7 @@ import { initializeTheme } from './hooks/use-appearance';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { initializeApi } from './api/axios';
+import { ReactFlowProvider } from '@xyflow/react';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -19,9 +20,13 @@ createInertiaApp({
     setup({ el, App, props }) {
         initializeApi().then(() => {
             const root = createRoot(el);
-            root.render(<QueryClientProvider client={queryClient}>
-                <App {...props} />
-            </QueryClientProvider>);
+            root.render(
+            <ReactFlowProvider>
+                <QueryClientProvider client={queryClient}>
+                    <App {...props} />
+                </QueryClientProvider>
+            </ReactFlowProvider>
+            );
         });
     },
     progress: {
