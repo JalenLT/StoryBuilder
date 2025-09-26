@@ -26,6 +26,10 @@ import axios from 'axios';
 
 import { CharacterData } from '@/types';
 
+import { usePerNodeDebouncedSaver } from '@/components/hooks/use-per-node-debounced-saver';
+import { useUpdateCharacterData } from '@/components/hooks/use-update-character-data';
+import { characterToPayload } from '@/components/payload/character-to-payload';
+
 const nodeTypes = {
     story: StoryNode,
     feature: FeatureNode,
@@ -89,64 +93,6 @@ function useUpdateNode(storyId: number){
     });
 }
 
-function useUpdateCharacterData(storyId: number){
-    const qc = useQueryClient();
-
-    return useMutation({
-        mutationFn: async ({id, first_name = '', last_name = '', alias = '', age = undefined, gender = '', description = '', background = '', motivation = ''}: {id: number, first_name?: string, last_name?: string, alias?: string, age?: number, gender?: string, description?: string, background?: string, motivation?: string}) => {
-            const response = await apiClient.post(import.meta.env.VITE_APP_URL + '/api/v1/characters/update', {
-                id,
-                first_name,
-                last_name,
-                alias,
-                age,
-                gender,
-                description,
-                background,
-                motivation,
-                story_id: storyId
-            });
-
-            return response.data;
-        },
-        onSuccess: (newNode) => {
-            toast.success(newNode.message);
-
-            qc.invalidateQueries({queryKey: ['story', storyId, 'nodes']});
-        },
-        onError: (error) => {
-            let errorMessage = 'An unexpected error occurred.';
-            if (axios.isAxiosError(error) && error.response) {
-                errorMessage = error.response.data.message || `Request failed...`;
-            }
-
-            toast.error(errorMessage);
-        },
-    });
-}
-
-function updateCharacter({
-    id,
-    first_name = '',
-    last_name = '',
-    alias = '',
-    age = 0,
-    gender = '',
-    description = '',
-    background = '',
-    motivation = ''}
-: {id: number, first_name: string, last_name: string, alias: string, age: number, gender: string, description: string, background: string, motivation: string}) {
-    const storyId = 1;
-    const updateCharacterDataMutation = useUpdateCharacterData(storyId);
-    useEffect(() => {
-        const time = setTimeout(() => {
-            updateCharacterDataMutation.mutate({id, first_name, last_name, alias, age, gender, description, background, motivation});
-        }, 500);
-
-        return () => clearTimeout(time);
-    }, [id, first_name, last_name, alias, age, gender, description, background, motivation, updateCharacterDataMutation]);
-}
-
 export default function BoardView(){
     /*****************
      *** INSPECTOR ***
@@ -155,7 +101,21 @@ export default function BoardView(){
     const setCurrentAction = useInspectorStore((state) => state.setCurrentAction);
     const storyId = 1;
     const updateNodeMutation = useUpdateNode(storyId);
+    const updateCharacterDataMutation = useUpdateCharacterData(storyId);
     const { getNode } = useReactFlow();
+
+    const { schedule: scheduleCharacterSave } = usePerNodeDebouncedSaver<string, Partial<CharacterData>>(500, (nodeId, mergedPatch) => {
+        const node = getNode(nodeId);
+        console.log(nodeId, mergedPatch);
+
+        if(!node || node.type !== 'character') return;
+
+        const current = node.data as CharacterData;
+
+
+        const nextData: CharacterData = { ...current, ...(mergedPatch as Partial<CharacterData>) };
+        updateCharacterDataMutation.mutate(characterToPayload(nextData, storyId));
+    });
 
     /***********************
      *** NODES AND EDGES ***
@@ -183,15 +143,6 @@ export default function BoardView(){
         (params) => setEdges((edgesSnapshot) => addEdge({...params, type: 'smart'}, edgesSnapshot)),
         []
     );
-    const updateNode = useCallback((id: string) => {
-        const node = getNode(id);
-        if(!node) return;
-
-        if(node.type === 'character'){
-            const data = node.data as CharacterData;
-            updateCharacter({id: Number(data.id), first_name: data.first_name?.value, last_name: data.last_name?.value, alias: data.alias?.value, age: data.age?.value, gender: data.gender?.value, description: data.description?.value, background: data.background?.value, motivation: data.motivation?.value});
-        }
-    }, [getNode]);
 
     const updateNodeData = useCallback((id: string, patch: Partial<NodeData>) => {
         setNodes((nodesSnapshot) =>
@@ -203,8 +154,11 @@ export default function BoardView(){
             })
         );
 
-        updateNode(id);
-    }, [setNodes, updateNode]);
+        const node = getNode(id);
+        if(node?.type === "character"){
+            scheduleCharacterSave(id, patch as Partial<CharacterData>);
+        }
+    }, [setNodes, scheduleCharacterSave, getNode]);
 
     const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
         event.stopPropagation();
@@ -221,6 +175,7 @@ export default function BoardView(){
 
     useEffect(() => {
         if (nodesQuery.data){
+            console.log(nodesQuery.data);
             setNodes(nodesQuery.data);
         }
     }, [nodesQuery.data, setNodes]);

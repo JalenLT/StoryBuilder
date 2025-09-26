@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect } from 'react';
+import { useCallback, useRef } from 'react';
 
 export function usePerNodeDebouncedSaver<K extends string | number, P>(delay: number, onFire: (key: K, mergedPatch: P) => void){
     const timeoutRef = useRef<Map<K, number>>(new Map());
@@ -18,6 +18,7 @@ export function usePerNodeDebouncedSaver<K extends string | number, P>(delay: nu
         }
 
         const timer = window.setTimeout(() => {
+            console.log("here here")
             const finalPatch = pendingRef.current.get(key);
 
             pendingRef.current.delete(key);
@@ -44,10 +45,6 @@ export function usePerNodeDebouncedSaver<K extends string | number, P>(delay: nu
             }
         }
     }, [onFire]);
-
-    useEffect(() => {
-        flushAll();
-    }, [flushAll]);
 
     return {schedule, flushAll};
 }
