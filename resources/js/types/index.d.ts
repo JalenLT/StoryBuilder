@@ -65,6 +65,42 @@ type CharacterData = {
     setting_id: number;
 }
 
+type SettingData = {
+    id: string,
+    name: { value: string; type: string };
+    description: { value: string; type: string };
+    world?: { value: string; type: string };
+    era?: { value: string; type: string; options?: { value: string; label: string }[] };
+    climate?: { value: string; type: string; options?: { value: string; label: string }[] };
+    story_id: BigInteger;
+};
+
+type FeatureData = {
+    id: string;
+    name: {value: string, type: string};
+    type: {value: string, type: string};
+    description: {value: string, type: string};
+    story_id: BigInteger;
+};
+
+type PointData = {
+    id: string;
+    text: {
+        value: string;
+        type: string;
+    };
+    creator_id: BigInteger;
+}
+
+type SceneData = {
+    id: string,
+    title: { value: string, type: string },
+    points: { points: PointData[], type: string },
+    creator_id: BigInteger,
+    story_id: BigInteger,
+    setting_id: BigInteger
+};
+
 export type NodeData = {
     key?:  {
         id: string,

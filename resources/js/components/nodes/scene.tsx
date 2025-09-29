@@ -3,24 +3,7 @@ import { Handle, Position, useReactFlow } from '@xyflow/react';
 import { ScrollText, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 import CustomNodeToolbar from '../node-toolbar';
-
-type PointData = {
-    id: string;
-    text: {
-        value: string;
-        type: string;
-    };
-    creator_id: BigInteger;
-}
-
-type SceneData = {
-    id: string,
-    title: { value: string, type: string },
-    points: { points: PointData[], type: string },
-    creator_id: BigInteger,
-    story_id: BigInteger,
-    setting_id: BigInteger
-};
+import { SceneData } from '@/types';
 
 function SceneNode({id, data, isConnectable, selected}: {id: string, data: SceneData, isConnectable: boolean, selected?: boolean}){
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);

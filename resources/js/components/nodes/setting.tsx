@@ -3,16 +3,7 @@ import { Handle, Position, useReactFlow } from '@xyflow/react';
 import { Trees, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 import CustomNodeToolbar from '../node-toolbar';
-
-type SettingData = {
-    id: string,
-    name: { value: string; type: string };
-    description: { value: string; type: string };
-    world?: { value: string; type: string };
-    era?: { value: string; type: string; options?: { value: string; label: string }[] };
-    climate?: { value: string; type: string; options?: { value: string; label: string }[] };
-    story_id: BigInteger;
-};
+import { SettingData } from '@/types';
 
 type ClimateData = { label: string; value: string };
 type EraData = { label: string; value: string };

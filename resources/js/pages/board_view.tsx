@@ -24,11 +24,19 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/api/axios';
 import axios from 'axios';
 
-import { CharacterData } from '@/types';
+import { CharacterData, SettingData, FeatureData, SceneData, PointData } from '@/types';
 
 import { usePerNodeDebouncedSaver } from '@/components/hooks/use-per-node-debounced-saver';
 import { useUpdateCharacterData } from '@/components/hooks/use-update-character-data';
 import { characterToPayload } from '@/components/payload/character-to-payload';
+import { useUpdateSettingData } from '@/components/hooks/use-update-setting-data';
+import { settingToPayload } from '@/components/payload/setting-to-payload';
+import { useUpdateFeatureData } from '@/components/hooks/use-update-feature-data';
+import { featureToPayload } from '@/components/payload/feature-to-payload';
+import { useUpdateSceneData } from '@/components/hooks/use-update-scene-data';
+import { sceneToPayload } from '@/components/payload/scene-to-payload';
+import { useUpdatePointData } from '@/components/hooks/use-update-point-data';
+import { pointToPayload } from '@/components/payload/point-to-payload';
 
 const nodeTypes = {
     story: StoryNode,
@@ -102,11 +110,14 @@ export default function BoardView(){
     const storyId = 1;
     const updateNodeMutation = useUpdateNode(storyId);
     const updateCharacterDataMutation = useUpdateCharacterData(storyId);
+    const updateSettingDataMutation = useUpdateSettingData(storyId);
+    const updateFeatureDataMutation = useUpdateFeatureData(storyId);
+    const updateSceneDataMutation = useUpdateSceneData(storyId);
+    const updatePointDataMutation = useUpdatePointData(storyId);
     const { getNode } = useReactFlow();
 
     const { schedule: scheduleCharacterSave } = usePerNodeDebouncedSaver<string, Partial<CharacterData>>(500, (nodeId, mergedPatch) => {
         const node = getNode(nodeId);
-        console.log(nodeId, mergedPatch);
 
         if(!node || node.type !== 'character') return;
 
@@ -115,6 +126,47 @@ export default function BoardView(){
 
         const nextData: CharacterData = { ...current, ...(mergedPatch as Partial<CharacterData>) };
         updateCharacterDataMutation.mutate(characterToPayload(nextData, storyId));
+    });
+    const { schedule: scheduleSettingSave } = usePerNodeDebouncedSaver<string, Partial<SettingData>>(500, (nodeId, mergedPatch) => {
+        const node = getNode(nodeId);
+
+        if(!node || node.type !== 'setting') return;
+
+        const current = node.data as SettingData;
+
+
+        const nextData: SettingData = { ...current, ...(mergedPatch as Partial<SettingData>) };
+        updateSettingDataMutation.mutate(settingToPayload(nextData, storyId));
+    });
+    const { schedule: scheduleFeatureSave } = usePerNodeDebouncedSaver<string, Partial<FeatureData>>(500, (nodeId, mergedPatch) => {
+        const node = getNode(nodeId);
+
+        if(!node || node.type !== 'feature') return;
+
+        const current = node.data as FeatureData;
+
+
+        const nextData: FeatureData = { ...current, ...(mergedPatch as Partial<FeatureData>) };
+        updateFeatureDataMutation.mutate(featureToPayload(nextData, storyId));
+    });
+    const { schedule: scheduleSceneSave } = usePerNodeDebouncedSaver<string, Partial<SceneData>>(500, (nodeId, mergedPatch) => {
+        const node = getNode(nodeId);
+
+        if(!node || node.type !== 'scene') return;
+
+        const current = node.data as SceneData;
+
+        const nextData: SceneData = { ...current, ...(mergedPatch as Partial<SceneData>) };
+        updateSceneDataMutation.mutate(sceneToPayload(nextData, storyId));
+    });
+    const { schedule: schedulePointSave } = usePerNodeDebouncedSaver<string, Partial<SceneData>>(500, (nodeId, mergedPatch) => {
+        const node = getNode(nodeId);
+
+        if(!node || node.type !== 'scene') return;
+        const points = { ...node.data, ...(mergedPatch as Partial<SceneData>) }.points;
+        points?.points.forEach((point: PointData) => {
+            updatePointDataMutation.mutate(pointToPayload(point, storyId));
+        });
     });
 
     /***********************
@@ -154,11 +206,23 @@ export default function BoardView(){
             })
         );
 
+
         const node = getNode(id);
         if(node?.type === "character"){
             scheduleCharacterSave(id, patch as Partial<CharacterData>);
+        }else if(node?.type === "setting"){
+            scheduleSettingSave(id, patch as Partial<SettingData>);
+        }else if(node?.type === "feature"){
+            scheduleFeatureSave(id, patch as Partial<FeatureData>);
+        }else if(node?.type === "scene"){
+            const scenePatch = patch as Partial<SceneData>;
+            if(scenePatch.title){
+                scheduleSceneSave(id, scenePatch);
+            }else{
+                schedulePointSave(id, scenePatch);
+            }
         }
-    }, [setNodes, scheduleCharacterSave, getNode]);
+    }, [setNodes, scheduleCharacterSave, scheduleSettingSave, scheduleFeatureSave, scheduleSceneSave, schedulePointSave, getNode]);
 
     const onEdgeClick = useCallback((event: React.MouseEvent, edge: Edge) => {
         event.stopPropagation();

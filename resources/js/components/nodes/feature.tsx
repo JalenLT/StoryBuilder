@@ -3,14 +3,7 @@ import { Handle, Position, useReactFlow } from '@xyflow/react';
 import { Shrub, Eye, EyeClosed } from 'lucide-react';
 import { useInspectorStore } from '../inspector/store';
 import CustomNodeToolbar from '../node-toolbar';
-
-type FeatureData = {
-    id: string;
-    name: {value: string, type: string};
-    type: {value: string, type: string};
-    description: {value: string, type: string};
-    story_id: BigInteger;
-};
+import { FeatureData } from '@/types';
 
 function FeatureNode({id, data, isConnectable, selected}: {id: string, data: FeatureData, isConnectable: boolean, selected?: boolean}){
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
