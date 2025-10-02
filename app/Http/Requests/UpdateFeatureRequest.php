@@ -26,9 +26,9 @@ class UpdateFeatureRequest extends FormRequest
     {
         return [
             'id' => ['required', 'integer', 'exists:features,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'type' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
         ];
     }
 }

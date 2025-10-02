@@ -165,7 +165,7 @@ export default function BoardView(){
         if(!node || node.type !== 'scene') return;
         const points = { ...node.data, ...(mergedPatch as Partial<SceneData>) }.points;
         points?.points.forEach((point: PointData) => {
-            updatePointDataMutation.mutate(pointToPayload(point, storyId));
+            updatePointDataMutation.mutate(pointToPayload(point, storyId, node.data.id as number));
         });
     });
 

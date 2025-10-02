@@ -26,8 +26,8 @@ class UpdateSettingRequest extends FormRequest
     {
         return [
             'id' => ['required', 'integer', 'exists:settings,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
             'world' => ['nullable', 'string', 'max:255'],
             'era' => ['nullable', 'string', 'max:255'],
             'climate' => ['nullable', 'string', 'max:255'],

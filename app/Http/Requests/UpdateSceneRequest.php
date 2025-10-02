@@ -27,7 +27,7 @@ class UpdateSceneRequest extends FormRequest
         return [
             'id' => ['required', 'integer', 'exists:scenes,id'],
             'title' => ['required', 'string', 'max:255'],
-            'setting_id' => ['required', 'integer', 'exists:settings,id'],
+            'setting_id' => ['nullable', 'integer', 'exists:settings,id'],
         ];
     }
 }

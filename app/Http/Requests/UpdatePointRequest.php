@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Point;
+use App\Models\Story;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePointRequest extends FormRequest
@@ -13,8 +14,22 @@ class UpdatePointRequest extends FormRequest
     public function authorize(): bool
     {
         $point = Point::find($this->input('id'));
+        if(is_null($point)){
+            $story = Story::find($this->input('story_id'));
+            return $story && $this->user()->can('create', [Point::class, $story]);
+        }else{
+            $point = Point::find($this->input('id'));
+            return $point->getAttribute('creator_id') === $this->user()->getAttribute('id');
+        }
+    }
 
-        return $point->getAttribute('creator_id') === $this->user()->getAttribute('id');
+    protected function prepareForValidation(): void
+    {
+        $id = $this->input('id');
+
+        $this->merge([
+            'id' => blank($id) || $id === 'null' ? null : $id,
+        ]);
     }
 
     /**
@@ -25,8 +40,10 @@ class UpdatePointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'exists:points,id'],
-            'text' => ['required', 'string'],
+            'id' => ['nullable', 'integer'],
+            'text' => ['nullable', 'string'],
+            'scene_id' => ['nullable', 'integer', 'exists:scenes,id'],
+            'story_id' => ['nullable', 'integer', 'exists:stories,id'],
         ];
     }
 }

@@ -20,7 +20,7 @@ class FeaturePolicy
      */
     public function view(User $user, Feature $feature): bool
     {
-        return $user->getAttribute('id') === $feature->story()->creator_id;
+        return $user->getAttribute('id') === $feature->story->creator_id;
     }
 
     /**
@@ -36,7 +36,7 @@ class FeaturePolicy
      */
     public function update(User $user, Feature $feature): bool
     {
-        return $user->getAttribute('id') === $feature->story()->creator_id && $user->can('features.update');
+        return $user->getAttribute('id') === $feature->story->creator_id && $user->can('features.update');
     }
 
     /**
@@ -44,6 +44,6 @@ class FeaturePolicy
      */
     public function delete(User $user, Feature $feature): bool
     {
-        return $user->getAttribute('id') === $feature->story()->creator_id && $user->can('features.delete');
+        return $user->getAttribute('id') === $feature->story->creator_id && $user->can('features.delete');
     }
 }

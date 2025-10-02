@@ -9,15 +9,24 @@ import {
 import { useInspectorStore } from './inspector/store';
 import { CopyPlus, SquarePen, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useCreateNode } from './hooks/use-create-node';
+import { useDeleteNode } from './hooks/use-delete-node';
 
 export default function CustomNodeToolbar({id}: {id: string}){
     const { getNodes, setNodes, setEdges } = useReactFlow();
     const setCurrentAction = useInspectorStore((state) => state.setCurrentAction);
+    const storyId = 1;
+    const createNodeMutation = useCreateNode(storyId);
+    const deleteNodeMutation = useDeleteNode(storyId);
 
     const deleteNode = (id: string) => {
         try {
             setNodes((nodesSnapshot) => nodesSnapshot.filter((node) => node.id !== id));
             setEdges((edgesSnapshot) => edgesSnapshot.filter((edge) => edge.source !== id && edge.target !== id));
+
+            id = id.split(':')[1];
+
+            deleteNodeMutation.mutate({id});
 
             toast.success("Node deleted");
         } catch (error: unknown) {
@@ -42,6 +51,10 @@ export default function CustomNodeToolbar({id}: {id: string}){
                 type: sourceNode?.type,
                 position: { x: sourceNode?.position.x + 100, y: sourceNode?.position.y + 100 },
             }
+            createNodeMutation.mutate({
+                position: { x: sourceNode?.position.x + 100, y: sourceNode?.position.y + 100 },
+                type: newNode.type
+            });
             setNodes((oldNodes) => oldNodes.concat(newNode))
 
             toast.success("Node duplicated");

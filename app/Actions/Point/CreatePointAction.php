@@ -14,10 +14,10 @@ class CreatePointAction{
         ]);
 
         DB::transaction(function() use($point, $data){
-            $index = DB::table('block_points')->where('block_id', $data['block_id'])->count() + 1;
+            $index = DB::table('scene_points')->where('scene_id', $data['scene_id'])->count() + 1;
 
-            DB::table('block_points')->insert([
-                'block_id' => $data['block_id'],
+            DB::table('scene_points')->insert([
+                'scene_id' => $data['scene_id'],
                 'point_id' => $point->id,
                 'index' => $index
             ]);

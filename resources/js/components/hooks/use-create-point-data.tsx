@@ -1,17 +1,16 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import apiClient from "@/api/axios";
-import axios from "axios";
-import {toast} from "sonner";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import apiClient from '@/api/axios';
+import axios from 'axios';
+import { toast } from 'sonner';
 
-export function useUpdatePointData(storyId: number){
+export function useCreatePoint(storyId: number){
     const qc = useQueryClient();
 
     return useMutation({
-        mutationFn: async ({id, scene_id, text = ''}: {id: number, scene_id: number, text?: string}) => {
-            const response = await apiClient.post(import.meta.env.VITE_APP_URL + '/api/v1/points/update', {
-                id,
-                text,
-                scene_id,
+        mutationFn: async ({text, scene_id}: {text: string, scene_id: number}) => {
+            const response = await apiClient.post(import.meta.env.VITE_APP_URL + '/api/v1/points/store', {
+                text: text,
+                scene_id: scene_id,
                 story_id: storyId
             });
 

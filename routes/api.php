@@ -83,13 +83,13 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
         Route::get('get-all/{story_id}', 'getAll')->name('get-all');
         Route::post('store', 'store')->name('store');
         Route::post('update', 'update')->name('update');
-        Route::post('delete', 'delete')->name('delete');
+        Route::delete('delete', 'delete')->name('delete');
     });
 
     Route::prefix('edges')->name('edges.')->controller(EdgeController::class)->group(function () {
         Route::get('{id}', 'get')->name('get');
         Route::post('store', 'store')->name('store');
         Route::post('update', 'update')->name('update');
-        Route::post('delete', 'delete')->name('delete');
+        Route::delete('delete', 'delete')->name('delete');
     });
 });

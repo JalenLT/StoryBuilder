@@ -14,7 +14,15 @@ Route::get('/create-permissions', function() {
     $permissions = [
         'stories.create',
         'stories.update',
-        'characters.update'
+        'characters.update',
+        'scenes.update',
+        'points.update',
+        'settings.update',
+        'features.update',
+        'points.create',
+        'nodes.delete',
+        'edges.delete',
+        'stories.delete'
     ];
 
     foreach ($permissions as $permission) {

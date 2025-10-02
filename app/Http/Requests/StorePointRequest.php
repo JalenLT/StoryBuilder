@@ -28,7 +28,7 @@ class StorePointRequest extends FormRequest
         return [
             'text' => ['required', 'string'],
             'story_id' => ['required', 'integer', 'exists:stories,id'],
-            'block_id' => ['required', 'integer', 'exists:blocks,id']
+            'scene_id' => ['required', 'integer', 'exists:blocks,id']
         ];
     }
 }
