@@ -43,7 +43,7 @@ export default function CustomNodeToolbar({id}: {id: string}){
                 return;
             }
             const newNode: any = {
-                id: 'character:' + Math.floor(Math.random() * 100000).toString(),
+                id: 'random:' + Math.floor(Math.random() * 100000).toString(),
                 data: {
                     ...sourceNode?.data,
                     id: newNodeId,

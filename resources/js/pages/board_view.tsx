@@ -58,7 +58,7 @@ async function fetchNodes(storyId: number) {
         toast.success(response.data?.message);
         return response.data?.data;
 
-    } catch (error: any) {
+    } catch (error) {
         let errorMessage = 'An unknown error occurred.';
         if (axios.isAxiosError(error) && error.response) {
             errorMessage = `Error ${error.response.status}: ${error.response.data.message || 'Unauthenticated.'}`;
@@ -239,7 +239,6 @@ export default function BoardView(){
 
     useEffect(() => {
         if (nodesQuery.data){
-            console.log(nodesQuery.data);
             setNodes(nodesQuery.data);
         }
     }, [nodesQuery.data, setNodes]);
