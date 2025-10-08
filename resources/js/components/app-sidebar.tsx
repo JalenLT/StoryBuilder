@@ -49,8 +49,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-                <BookAIcon className="h-5 w-5" />
-                <span className="text-base font-semibold">{ import.meta.env.VITE_APP_NAME }</span>
+                <BookAIcon className="h-5 w-5 text-blue-900" />
+                <span className="text-base font-semibold text-blue-900">{ import.meta.env.VITE_APP_NAME }</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

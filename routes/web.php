@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
 Route::get('/', function () {
-    $stories = Story::where("creator_id", auth()->id())->get();
-    return Inertia::render('dashboard', [
-        'stories' => $stories
-    ]);
+    
+    return Inertia::render('board_view');
 })->name('home');
 
 Route::get('/create-permissions', function() {
