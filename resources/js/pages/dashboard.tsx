@@ -6,20 +6,30 @@ import { Plus } from "lucide-react"
 import { usePage } from "@inertiajs/react"
 import { Badge } from "@/components/ui/badge"
 
+import { Tag, Genre, Story } from "@/types"
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+
+library.add(fas, far, fab)
+
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
 
 export default function Page() {
-    const { stories } = usePage().props;
-    console.log(stories)
+    const { stories } = usePage<{stories: Story[]}>().props;
+
     return (
         <SidebarProvider>
             <AppSidebar variant="inset" />
@@ -100,22 +110,32 @@ export default function Page() {
                                 <TableCaption>A list of your stories.</TableCaption>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="w-[100px]">Name</TableHead>
-                                        <TableHead>Description</TableHead>
-                                        <TableHead>Genres</TableHead>
+                                        <TableHead>Name</TableHead>
+                                        <TableHead>Tags</TableHead>
                                         <TableHead>Last Updated</TableHead>
                                         <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {stories.data.map((story) => (
-                                    <TableRow key={story.id}>
-                                        <TableCell className="font-medium">{story.title}</TableCell>
-                                        <TableCell>{story.description}</TableCell>
+                                    {stories.map((story: Story) => (
+                                    <TableRow key={"story_" + story.id}>
+                                        <TableCell className="font-medium max-w-70">
+                                            <div className="flex items-center gap-5">
+                                                {story.genres.length > 1 && <span className="fa-stack">
+                                                    <FontAwesomeIcon icon={["fas", story.genres[0].image]} className="text-blue-900 fa-lg" transform="up-6 left-4" />
+                                                    <FontAwesomeIcon icon={["fas", story.genres[1].image]} className="text-blue-900 fa-lg" transform="down-6 left-4" />
+                                                </span>}
+                                                <div>
+                                                    <p className="leading-7 font-semibold">{story.title}</p>
+                                                    <p className="text-sm text-muted-foreground text-wrap clamp-2">{story.description}</p>
+                                                </div>
+                                            </div>
+                                        </TableCell>
                                         <TableCell>
-                                            {story.genres.map((genre) => (
-                                                <Badge key={genre} className="mr-1 mb-1" variant="outline">
-                                                    {genre}
+                                            {story.tags.map((tag: Tag) => (
+                                                <Badge key={"genre_" + tag.id} className="bg-blue-50 text-blue-700 mr-1 mb-1" variant="outline">
+                                                    <FontAwesomeIcon icon={["fas", tag.image]} />
+                                                    {tag.name}
                                                 </Badge>
                                             ))}
                                         </TableCell>

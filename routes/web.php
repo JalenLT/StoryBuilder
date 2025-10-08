@@ -44,7 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         $stories = Story::where("creator_id", auth()->id())->get();
         return Inertia::render('dashboard', [
-            'stories' => StoryResource::collection($stories)
+            'stories' => StoryResource::collection($stories)->resolve()
         ]);
     })->name('dashboard');
 });

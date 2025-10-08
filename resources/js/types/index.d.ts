@@ -101,6 +101,35 @@ type SceneData = {
     setting_id: BigInteger
 };
 
+type Genre = {
+    id: string,
+    name: string,
+    description: string,
+    image: string,
+    created_at: string,
+    updated_at: string
+};
+
+type Tag = {
+    id: string,
+    name: string,
+    description: string,
+    image: string,
+    created_at: string,
+    updated_at: string
+};
+
+type Story = {
+    id: string,
+    title: string,
+    description: string,
+    creator: string,
+    genres: Genre[],
+    tags: Tag[],
+    created_at: string,
+    updated_at: string
+};
+
 export type NodeData = {
     key?:  {
         id: string,

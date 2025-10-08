@@ -91,8 +91,6 @@ export const TagOptions: TagData[] = [
     {label: "Quest", value: "Quest"},
 ];
 
-
-
 function StoryNode({id, data, isConnectable, selected}: {id: string,data: StoryData, isConnectable: boolean, selected?: boolean}){
     const setSelectedId = useInspectorStore((state) => state.setSelectedId);
 
