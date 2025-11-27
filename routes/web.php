@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
 Route::get('/', function () {
-    
     return Inertia::render('board_view');
 })->name('home');
 
